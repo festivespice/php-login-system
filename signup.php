@@ -22,8 +22,18 @@
                     <a href="index.php">Home</a>
                 </div>
 
-                <div class="currentPageContentSized">
+                <div class="accountForm">
                     <h1> Sign up </h1>
+
+                    <form class="authentication" action="./includes/signup.inc.php" method="POST">
+                        <input type="text" name="name" placeholder="Full name..."> 
+                        <input type="text" name="email" placeholder="Email..."> 
+                        <input type="text" name="uid" placeholder="Username..."> 
+                        <input type="password" name="password" placeholder="Password..."> 
+                        <input type="password" name="passwordre" placeholder="Repeat Password..."> 
+
+                        <button type="submit" name="submit">Sign up</button>
+                    </form>
                 </div>
             </div>
         </div>

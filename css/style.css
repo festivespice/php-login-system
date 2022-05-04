@@ -66,6 +66,17 @@ h1 {
     overflow: hidden;
 }
 
+.accountForm
+{
+    border-radius: 5px;
+    background-color: white; 
+    width: 50%;
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px 20px 20px 20px;
+    overflow: hidden;
+}
+
 .topnav {
     background-color: #67595E;
     padding: 0px 10%;
@@ -101,4 +112,9 @@ h1 {
 .topnav a.active {
     background-color: #A49393;
     color: white;
+}
+
+.authentication input {
+    margin: 15px auto;
+    display: block;
 }
