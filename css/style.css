@@ -1,0 +1,104 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    height: 100%;
+}
+
+body {
+    /* previous background 
+    background-color: #EED6D3;
+    background-image: -webkit-linear-gradient(65deg, #E8B4B8 50%, #EED6D3 50%);
+    */
+    font-family: 'Kanit', sans-serif;
+    font-weight: 400; 
+
+    background-color: #e8b4b8;
+    background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+}
+
+footer {
+    position: relative;
+    background-color: #5f5357;
+    text-align: center;
+    color: white;
+    height: 30px;
+    margin-top: -30px;
+    clear: both;
+    width: 100%;
+}
+
+footer p {
+    margin: 0px;
+}
+
+h1 {
+    padding: 20px 0px;
+}
+
+.wrap {
+    min-height: 100%;
+}
+
+.main {
+    overflow: auto;
+    padding-bottom: 30px
+}
+
+.currentPage {
+    border-radius: 5px;
+    background-color: white; 
+    width: 80%;
+    min-height: 90vh;
+    margin: 30px auto;
+    padding: 20px 20px 20px 100px;
+    overflow: hidden;
+}
+
+.currentPageContentSized {
+    border-radius: 5px;
+    background-color: white; 
+    width: 80%;
+    margin: 10px auto;
+    padding: 20px 20px 20px 100px;
+    overflow: hidden;
+}
+
+.topnav {
+    background-color: #67595E;
+    padding: 0px 10%;
+    height: 6vh;
+}
+
+.topnav h2 {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 800; 
+    margin: auto 0;
+}
+
+.topnav a {
+    float: right;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 16px 16px;
+    margin: 0px 5px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #A49393;
+    color: white;
+}
