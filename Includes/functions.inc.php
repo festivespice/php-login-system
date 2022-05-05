@@ -51,8 +51,8 @@
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){ //does it fail?
             //there is an error,
-            $result = false;
-            return $false;
+            header("location: ../signup.php?error=stmtfailed&name=$name&email=$email&uid=$uid");
+            exit(); 
         } else { //did not fail
             mysqli_stmt_bind_param($stmt, "ss", $uid, $email); //two strings, and then these two strings
             mysqli_stmt_execute($stmt);

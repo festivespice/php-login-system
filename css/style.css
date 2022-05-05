@@ -38,6 +38,14 @@ h1 {
     padding: 20px 0px;
 }
 
+p.error {
+    color: rgb(194, 70, 70);
+}
+
+p.success {
+    color: rgb(82, 191, 82);
+}
+
 .wrap {
     min-height: 100%;
 }
