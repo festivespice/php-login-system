@@ -17,7 +17,7 @@
             header("location: ../signup.php?error=emptyinput");
             exit(); //stops the script from running
         }
-        if(invalidUid($username) !== false){
+        if(invalidUid($uid) !== false){
             header("location: ../signup.php?error=invaliduid&name=$name&email=$email");
             exit(); 
         }
@@ -29,13 +29,14 @@
             header("location: ../signup.php?error=passwordsdontmatch&name=$name&email=$email&uid=$uid");
             exit(); 
         }
-        if(uidExists($conn, $username) !== false){ //we actually need the database connection to check this
-            header("location: ../signup.php?error=usernametaken&name=$name&email=$email");
+        if(uidExists($conn, $uid, $email, $name) !== false){ //we actually need the database connection to check this
+            header("location: ../signup.php?error=usernameoremailtaken&name=$name");
             exit(); 
         }
 
         //at this point, the user's input is valid
         createUser($conn, $name, $email, $uid, $password);
+        exit();
     } else {
         header("location: ../signup.php");
         exit(); 
