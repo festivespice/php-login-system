@@ -91,3 +91,41 @@
             exit(); 
         }
     }
+
+    function emptyInputLogin($uid, $password) {
+        $result;
+        if(empty($uid) || empty($password)){
+            $result = true;
+        }else {
+            $result = false;
+        }
+        return $result;
+    }
+
+    function loginUser($conn, $uid, $password) {
+        //uidExists($conn, $uid, $email, $name)
+        $uidExists = uidExists($conn, $uid, $uid, "");
+
+        if($uidExists === false){
+            header("location: ../signin.php?error=wronglogin");
+            exit();
+        }
+        
+        //uid returns an associative array (a row) if there is a uid. 
+        $hashedPassword = $uidExists['password'];
+        //we don't de-hash the hash. That wouldn't be possible, and it would be unsecure.
+        //Instead, we hash the inputted password and compare the original hashed password. 
+        $checkPassword = password_verify($password, $hashedPassword);
+        
+        if($checkPassword == false) { //the password was incorrect. Don't tell the user that the password specifically was incorrect.
+            header("location: ../signin.php?error=wronglogin");
+            exit();
+        } else if ($checkPassword === true){
+            session_start();
+            //now that a session is started, we can start using session variables without losing them.
+            $_SESSION["userid"] = $uidExists["id"]; //the id of the row returned from 'uidExists()'
+            $_SESSION["useruid"] = $uidExists["uid"]; //the uid of the row returned from 'uidExists()'
+            header("location: ../index.php?error=none");
+            exit();
+        }
+    }

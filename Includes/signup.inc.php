@@ -12,7 +12,7 @@
         require_once 'dbh.inc.php';
         require_once 'functions.inc.php';
 
-        //error handlers. the order doesn't really matter.
+        //error handlers. the order sort of matters: you'd want users to know that something was empty before anything else.
         if(emptyInputSignup($name, $email, $uid, $password, $passwordre) !== false){
             header("location: ../signup.php?error=emptyinput");
             exit(); //stops the script from running
@@ -30,7 +30,7 @@
             exit(); 
         }
         if(uidExists($conn, $uid, $email, $name) !== false){ //we actually need the database connection to check this
-            header("location: ../signup.php?error=usernameoremailtaken&name=$name");
+            header("location: ../signup.php?error=usernameoremailtaken&name=$name&email=$email");
             exit(); 
         }
 
