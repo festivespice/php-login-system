@@ -5,9 +5,23 @@
     <h1> Sign up </h1>
 
     <form class="authentication" action="./includes/signup.inc.php" method="POST">
-        <input type="text" name="name" placeholder="Full name..."> 
-        <input type="text" name="email" placeholder="Email..."> 
-        <input type="text" name="uid" placeholder="Username..."> 
+        <?php
+            if(isset($_GET['name'])){
+                echo '<input type="text" name="name" placeholder="Full name..." value="'.$_GET['name'].'">';
+            } else {
+                echo '<input type="text" name="name" placeholder="Full name...">';
+            }
+            if(isset($_GET['email'])){
+                echo '<input type="text" name="email" placeholder="Email..." value="'.$_GET['email'].'">';
+            } else {
+                echo '<input type="text" name="email" placeholder="Email...">';
+            }
+            if(isset($_GET['uid'])){
+                echo '<input type="text" name="uid" placeholder="Username..." value="'.$_GET['uid'].'">';
+            } else {
+                echo '<input type="text" name="uid" placeholder="Username...">';
+            }            
+        ?>
         <input type="password" name="password" placeholder="Password..."> 
         <input type="password" name="passwordre" placeholder="Repeat Password..."> 
 

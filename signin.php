@@ -5,8 +5,14 @@
     <h1>Log in</h1>
 
     <form class="authentication" action="./includes/signin.inc.php" method="POST">
-        <input type="text" name="uid" placeholder="Username/Email...">
-        <input type="password" name="password" placeholder="Password...">
+    <?php
+        if(isset($_GET['uid'])){
+            echo '<input type="text" name="uid" placeholder="Username/Email..." value="'.$_GET['uid'].'">';
+        } else {
+            echo '<input type="text" name="uid" placeholder="Username/Email...">';
+        }      
+    ?>
+    <input type="password" name="password" placeholder="Password...">
 
         <button type="submit" name="submit">Log in</button>
     </form>

@@ -97,7 +97,7 @@ p.success {
     text-align: center;
     padding: 6px 16px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 1.5rem;
     font-weight: 800; 
     margin: auto 0;
 }
@@ -109,7 +109,7 @@ p.success {
     padding: 16px 16px;
     margin: 0px 5px;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 1rem;
 }
 
 .topnav a:hover {
