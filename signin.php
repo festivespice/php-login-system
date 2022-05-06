@@ -1,28 +1,16 @@
 <?php
     include_once './props/header.php';
 ?>
-<div class="wrap">
-    <div class="main">
-        <div class="topnav">
-            <h2 href="index.php"> Something </h2>
+<div class="accountForm">
+    <h1>Log in</h1>
 
-            <a class="active" href="signin.php">Log In</a>
-            <a href="signup.php">Sign Up</a>
-            <a href="blog.php">Find Blogs</a>
-            <a href="discover.php">About Us</a>
-            <a href="index.php">Home</a>
-        </div>
+    <form class="authentication" action="./includes/signin.inc.php" method="POST">
+        <input type="text" name="uid" placeholder="Username/Email...">
+        <input type="password" name="password" placeholder="Password...">
 
-        <div class="accountForm">
-            <h1>Log in</h1>
-
-            <form class="authentication" action="./includes/signin.inc.php" method="POST">
-                <input type="text" name="uid" placeholder="Username/Email..."> 
-                <input type="password" name="password" placeholder="Password..."> 
-
-                <button type="submit" name="submit">Log in</button>
-            </form>
-            <?php
+        <button type="submit" name="submit">Log in</button>
+    </form>
+    <?php
                 if(isset($_GET['error'])){
                     $error = $_GET['error'];
                     if($error == "emptyinput"){
@@ -39,8 +27,6 @@
                     }
                 }
             ?>
-        </div>
-    </div>
 </div>
 <?php
     include_once './props/footer.php';

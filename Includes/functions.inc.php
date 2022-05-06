@@ -13,7 +13,7 @@
     //return true if the UID contains invalid characters
     function invalidUid($uid) {
         $result;
-        if(!preg_match("/^[a-zA-Z]$/", $uid)){
+        if(!preg_match("/^[a-zA-Z0-9]*$/", $uid)){
             $result = true; //we're checking if it's invalid. If it is, we'll land here
         } //using regex to check if numbers and lowercase/uppercase letters are used exclusively
         else {
@@ -123,8 +123,8 @@
         } else if ($checkPassword === true){
             session_start();
             //now that a session is started, we can start using session variables without losing them.
-            $_SESSION["userid"] = $uidExists["id"]; //the id of the row returned from 'uidExists()'
-            $_SESSION["useruid"] = $uidExists["uid"]; //the uid of the row returned from 'uidExists()'
+            $_SESSION["userId"] = $uidExists["id"]; //the id of the row returned from 'uidExists()'
+            $_SESSION["userUid"] = $uidExists["uid"]; //the uid of the row returned from 'uidExists()'
             header("location: ../index.php?error=none");
             exit();
         }

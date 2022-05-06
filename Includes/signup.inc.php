@@ -13,16 +13,18 @@
         require_once 'functions.inc.php';
 
         //error handlers. the order sort of matters: you'd want users to know that something was empty before anything else.
+        //Also, try to capture errors in a chronological way: if the name is the first input field, start from there.
+        //However, leave functions that require a lot of processing power last. 
         if(emptyInputSignup($name, $email, $uid, $password, $passwordre) !== false){
             header("location: ../signup.php?error=emptyinput");
             exit(); //stops the script from running
         }
-        if(invalidUid($uid) !== false){
-            header("location: ../signup.php?error=invaliduid&name=$name&email=$email");
-            exit(); 
-        }
         if(invalidEmail($email) !== false){
             header("location: ../signup.php?error=invalidemail&name=$name&uid=$uid");
+            exit(); 
+        }
+        if(invalidUid($uid) !== false){
+            header("location: ../signup.php?error=invaliduid&name=$name&email=$email");
             exit(); 
         }
         if(passwordMatch($password, $passwordre) !== false){
