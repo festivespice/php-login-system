@@ -3,8 +3,8 @@
 ?>
 <div class="currentPageContentSized">
     <?php
-        if(isset($_SESSION['userUid'])){
-            echo "<h2>Hello, ".$_SESSION['userUid']."!</h2>";
+        if(isset($_SESSION['userUid']) && isset($_SESSION['userId'])){
+            echo "<h2>Hello, ".$_SESSION['userUid']."! User ID: ".$_SESSION['userId']."</h2>";
         }
     ?>
     <h1> Hello, this is content! </h1>

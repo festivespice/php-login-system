@@ -125,7 +125,38 @@
             //now that a session is started, we can start using session variables without losing them.
             $_SESSION["userId"] = $uidExists["id"]; //the id of the row returned from 'uidExists()'
             $_SESSION["userUid"] = $uidExists["uid"]; //the uid of the row returned from 'uidExists()'
+            $_SESSION["userName"] = $uidExists["name"];
             header("location: ../index.php?error=none");
             exit();
         }
+    }
+
+    function checkIfUserImageExists($conn, $userId){
+        $imageExists = false;
+
+        $sql = "select * from profileimg pr where pr.userId=".$userId.";"; //no user input, so no need to sanitize.
+        $result = mysqli_query($conn, $sql);
+
+        if(mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            if($row['status'] == 0){
+                $imageExists = true;
+            }
+        }
+        return $imageExists;
+    }
+
+    function returnUserImagePath($imageExists, $userId){
+        $imageUrl = "./uploads/"; //relative to the parent .. directory.
+        if($imageExists){
+            $globUrl = $imageUrl."profile".$userId."*";
+            $globResult = glob($globUrl); //check if this is only one. It should return all matches to the input pattern
+
+            $arrWithExtension = explode(".", $globResult[0]);
+            $fileExtension = $arrWithExtension[2]; //the only '.' in the name has the extension after it
+            $imageUrl = $imageUrl."profile".$userId.".".$fileExtension;
+        } else {
+            $imageUrl = $imageUrl."default.png";
+        }
+        return $imageUrl;
     }

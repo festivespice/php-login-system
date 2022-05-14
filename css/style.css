@@ -37,6 +37,9 @@ footer p {
 h1 {
     padding: 20px 0px;
 }
+h2 {
+    font-size: 1.2em;
+}
 
 p.error {
     color: rgb(194, 70, 70);
@@ -55,6 +58,20 @@ p.success {
     padding-bottom: 30px
 }
 
+.light-section{
+    background-color: white;
+    color: black;
+    width: 95%;
+    padding: 20px 20px 20px 50px;
+    overflow: hidden;
+}
+
+.dark-section {
+    background-color: black;
+    color: white;
+    width: 100%;
+}
+
 .currentPage {
     border-radius: 5px;
     background-color: white; 
@@ -62,6 +79,24 @@ p.success {
     min-height: 90vh;
     margin: 30px auto;
     padding: 20px 20px 20px 100px;
+    overflow: hidden;
+}
+
+.current-page-discover {
+    border-radius: 5px;
+    background-color: white; 
+    width: 80%;
+    min-height: 90vh;
+    margin: 30px auto;
+    overflow: hidden;
+}
+
+.current-page-profile {
+    border-radius: 5px;
+    background-color: white; 
+    width: 60%;
+    min-height: 90vh;
+    margin: 30px auto;
     overflow: hidden;
 }
 
@@ -85,6 +120,65 @@ p.success {
     overflow: hidden;
 }
 
+.profile-img {
+    border-radius: 50%;
+    height: 4vh;
+    display: inline;
+    float: right;
+}
+
+.profile-page-img {
+    border-radius: 50%;
+    height: 25vh;
+    float: left;
+    margin-right: 50px;
+}
+
+.profile-page-img:hover {
+    border-radius: 50%;
+    height: 25vh;
+    float: left;
+    background-color: #ddd;
+    margin-right: 50px;
+}
+
+.profile-text {
+    display: inline;
+}
+
+.profile-header { 
+    padding: 30px;
+    
+    font-size: 2rem;
+    line-height: 200%;
+    text-align: left;
+}
+.profile-header h1 {
+    font-size: 2rem;
+    display: block;
+}
+.profile-header p {
+    font-size: 1rem;
+    display: block;
+
+}
+
+.profile-hr {
+    border: none;
+    border-bottom: 7px dotted;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.profile-image-settings {
+    padding: 30px;
+    margin: 20px;
+}
+
+.topnav .profile-tab {
+    display: flex;
+}
+
 .topnav {
     background-color: #67595E;
     padding: 0px 10%;
@@ -106,10 +200,13 @@ p.success {
     float: right;
     color: #f2f2f2;
     text-align: center;
-    padding: 16px 16px;
+    padding: 17px 17px;
     margin: 0px 5px;
     text-decoration: none;
     font-size: 1rem;
+    height: 3vh;
+    align-items: center;
+    justify-content: center
 }
 
 .topnav a:hover {

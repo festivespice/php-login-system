@@ -22,9 +22,13 @@
             <div class="topnav">
                 <h2> Something </h2>
                 <?php 
+
                     if(isset($_SESSION['userUid'])){ //there is currently a logged in user
+                        //if the user is logged in, query whether they have a picture. If they do, then try to create its pathname and use it.
+                        include_once './includes/profileimg.inc.php';
+
                         echo '<a id="signup" href="./Includes/logout.inc.php">Logout</a>';
-                        echo '<a id="profile" href="profile.php">Profile</a>';
+                        echo '<a id="profile" href="profile.php" class="profile-tab"><p class="profile-text">'.$_SESSION['userUid'].'</p><img class="profile-img" src="'.$imagePath.'?'.mt_rand().'"></a>';
                     } else  {
                         echo '<a id="signin" href="signin.php">Log In</a>';
                         echo '<a id="signup" href="signup.php">Sign Up</a>';
