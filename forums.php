@@ -1,11 +1,27 @@
 <?php
     include_once './props/header.php';
 ?>
-<div class="currentPageContentSized">
-    <h1> Hello, this is content! </h1>
-    <p> 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor vitae purus faucibus ornare suspendisse sed nisi. Velit aliquet sagittis id consectetur purus. Adipiscing diam donec adipiscing tristique risus nec. Pharetra et ultrices neque ornare aenean euismod elementum nisi quis. Bibendum enim facilisis gravida neque convallis a cras semper auctor. Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet. Hac habitasse platea dictumst vestibulum rhoncus. Varius vel pharetra vel turpis nunc eget lorem. Volutpat commodo sed egestas egestas fringilla. Consectetur lorem donec massa sapien faucibus et molestie ac feugiat. Commodo nulla facilisi nullam vehicula. Libero volutpat sed cras ornare arcu dui vivamus arcu felis. Sit amet aliquam id diam. Tristique risus nec feugiat in.
-    </p>
+<div class="currentPage">
+    <div class="forums-header">
+        <h1> Forums </h1>
+        <p> 
+            Posts about (specific subject) will be made here. 
+            Treat other people how you would like to be treated. 
+        </p>
+        <!-- <form action="./includesforums-upload.inc.php" method="POST">
+            <input type="text" name="title">
+            <input type="text" name="body">
+            <button type="submit" name="submit-post">Post</button>
+        </form> -->
+    </div>
+    <!-- <div class="forums-body">
+        <div class="forums-item-container">
+            <a href="#">
+                <h3> This is a title </h3>
+                <p> This is a paragraph. </p>
+            </a>
+        </div>
+    </div> -->
 </div>
 <?php
     include_once './props/footer.php';
