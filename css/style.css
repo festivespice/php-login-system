@@ -109,13 +109,15 @@ p.success {
 
 .gallery-item-container{
     margin: 15px;
+    width: 200px;
 }
 
 .item-image {
-    position: relative;
     width: 200px;
     height: 200px;
-    background-color: blueviolet;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
 }
 
 .admin-gallery-form {

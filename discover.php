@@ -13,52 +13,36 @@
         <h1> What we're up to </h1>
     </div>
     <div class="gallery-body">
-        <div class="gallery-item-container">
-            <a href="#">
-                <div class="item-image"></div>
-                <h3 class="item-title"> This is a title </h3>
-                <p class="item-desc"> This is a paragraph. </p>
-            </a>
-        </div>
-        <div class="gallery-item-container">
-            <a href="#">
-                <div class="item-image"></div>
-                <h3 class="item-title"> This is a title </h3>
-                <p class="item-desc"> This is a paragraph. </p>
-            </a>
-        </div>
-        <div class="gallery-item-container">
-            <a href="#">
-                <div class="item-image"></div>
-                <h3 class="item-title"> This is a title </h3>
-                <p class="item-desc"> This is a paragraph. </p>
-            </a>
-        </div>
-        <div class="gallery-item-container">
-            <a href="#">
-                <div class="item-image"></div>
-                <h3 class="item-title"> This is a title </h3>
-                <p class="item-desc"> This is a paragraph. </p>
-            </a>
-        </div>
-        <div class="gallery-item-container">
-            <a href="#">
-                <div class="item-image"></div>
-                <h3 class="item-title"> This is a title </h3>
-                <p class="item-desc"> This is a paragraph. </p>
-            </a>
-        </div>
-        <div class="gallery-item-container">
-            <a href="#">
-                <div class="item-image"></div>
-                <h3 class="item-title"> This is a title </h3>
-                <p class="item-desc"> This is a paragraph. </p>
-            </a>
-        </div>
+        <?php
+        include_once './includes/dbh.inc.php';
+        $sql = "select * from galleryitem gal order by gal.orderNumber desc;";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            echo "SQL stmt error!";
+        }else{
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $numRows = mysqli_num_rows($result);
+            if($numRows >= 1){
+                while($row = mysqli_fetch_assoc($result)){
+                    echo '<div class="gallery-item-container">
+                    <a href="#">
+                        <div style="background-image: url(\'./image/gallery/'.$row['imageFullName'].'\');" class="item-image"></div>
+                        <h3 class="item-title">'.$row['title'].'</h3>
+                        <p class="item-desc">'.$row['description'].'</p>
+                    </a>
+                    </div>';
+                }
+            }else {
+                echo "Nothing yet!";
+            }
+        }
+        ?>
     </div>
     <?php
         if($_SESSION){
-            if($_SESSION['userId'] === 1){
+            if($_SESSION['userId'] === 1){ //1 is considered admin user, or include some other sort of user group...
                 echo '<form class="admin-gallery-form" action="./includes/gallery-upload.inc.php" method="POST" enctype="multipart/form-data">
                 <input type="text" name="filename" placeholder="File name"...>
                 <input type="text" name="filetitle" placeholder="Image title...">
