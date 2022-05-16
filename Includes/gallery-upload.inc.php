@@ -31,7 +31,7 @@ if(isset($_POST['submit-post'])){
         $allowedExtensions = array("jpg", "jpeg", "png");
     
         if(in_array($fileExtension, $allowedExtensions)){
-            if($fileSize < 20000){ //if less than 20MB
+            if($fileSize <= 20971520){ //if less than 20MB
                 //all file validation checks are done! add post data to database, add file to filesystem.
                 $fullFileName = $inputFilename.".".uniqid("", true).".".$fileExtension;
                 $fileDestination = "../image/gallery/".$fullFileName;
@@ -39,15 +39,14 @@ if(isset($_POST['submit-post'])){
 
                 //now that file validations are done, do form text input validation
                 if(empty($inputFiletitle) || empty($inputFiledesc)){
-                    echo "empty input fields";
+                    header("Location: ../discover.php?error=emptyInput&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                     exit();
                 } else {
                     $sql = "select * from galleryitem;"; //we need to check data using all rows.
                     //we're using user input, so we need to use a prepared statement.
                     $stmt = mysqli_stmt_init($conn);
                     if(!mysqli_stmt_prepare($stmt, $sql)){
-                        //error
-                        echo "statement error";
+                        header("Location: ../discover.php?error=stmtError&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                         exit();
                     }else {
                         mysqli_stmt_execute($stmt);
@@ -58,7 +57,7 @@ if(isset($_POST['submit-post'])){
                         $sql = "insert into galleryitem (title, description, imageFullName, orderNumber, userId) values (?, ?, ?, ?, ? );";
                         //you can use an initialized statement with a different SQL input
                         if(!mysqli_stmt_prepare($stmt, $sql)) {
-                            echo "2statement error";
+                            header("Location: ../discover.php?error=secondStmtError&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                             exit();
                         }else {
                             mysqli_stmt_bind_param($stmt, "sssss", $inputFiletitle, $inputFiledesc, $fullFileName, $setImageOrder, $id);
@@ -67,21 +66,20 @@ if(isset($_POST['submit-post'])){
                             //now we can upload the file: the database was updated
                             move_uploaded_file($fileTempName, $fileDestination);
 
-                            echo "Everything was succesful!";
+                            header("Location: ../discover.php?success");
                             exit();
                         }
                     }
                 }
             } else {
-                echo "File size is too big";
+                header("Location: ../discover.php?error=exceedsFileSize&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                 exit();
             }
         } else {
-            echo "extension error";
-            exit();
+            header("Location: ../discover.php?error=improperExtension&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
         }
     } else {
-        echo "file error";
+        header("Location: ../discover.php?error=errorUploading&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
         exit();
     }
     
