@@ -185,6 +185,48 @@ p.success {
     height: 6vh;
 }
 
+.forums-header {
+
+}
+
+.gallery-header{
+
+}
+
+.gallery-body {
+    display: flex;
+    padding: 10px;
+    overflow: hidden;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.gallery-item-container{
+    margin: 15px;
+    width: 200px;
+}
+
+.item-image {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+.admin-gallery-form {
+    background-color: gainsboro;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    margin: 10px;
+}
+.admin-gallery-form input{
+    margin: 5px;
+}
+
 .topnav h2 {
     float: left;
     color: white;
