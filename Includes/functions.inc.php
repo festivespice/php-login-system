@@ -147,11 +147,10 @@
     }
 
     function returnUserImagePath($imageExists, $userId){
-        $imageUrl = "./uploads/"; //relative to the parent .. directory.
+        $imageUrl = "./image/profile-pictures/"; //relative to the parent .. directory.
         if($imageExists){
             $globUrl = $imageUrl."profile".$userId."*";
             $globResult = glob($globUrl); //check if this is only one. It should return all matches to the input pattern
-
             $arrWithExtension = explode(".", $globResult[0]);
             $fileExtension = $arrWithExtension[2]; //the only '.' in the name has the extension after it
             $imageUrl = $imageUrl."profile".$userId.".".$fileExtension;

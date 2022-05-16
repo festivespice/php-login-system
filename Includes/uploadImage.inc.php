@@ -26,7 +26,7 @@ if(isset($_POST['submit-upload'])){
             if(in_array($fileExtension, $allowedExtensions)){ 
                 //currently, the file passes all of our validation checks. 
                 $newFileName = "profile".$id.".".$fileExtension;
-                $fileDestination = "../uploads/".$newFileName;
+                $fileDestination = "../image/profile-pictures/".$newFileName;
 
                 //3) save file permanently
                 move_uploaded_file($fileTmpName, $fileDestination);

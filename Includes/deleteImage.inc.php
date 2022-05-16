@@ -7,7 +7,7 @@ if(isset($_POST['submit-delete'])){
     $id = $_SESSION['userId'];
 
     //1) Find the file file extension by globbing
-    $fileName = '../uploads/profile'.$id.'*';
+    $fileName = '../image/profile-pictures/profile'.$id.'*';
     $uploadsCaptured = glob($fileName);
     print_r($uploadsCaptured);
 
@@ -16,7 +16,7 @@ if(isset($_POST['submit-delete'])){
     print_r($fileData);
 
     //2) Create file path
-    $filePath = '../uploads/profile'.$id.'.'.$fileExtension;
+    $filePath = '../image/profile-pictures/profile'.$id.'.'.$fileExtension;
 
     //3) Delete file
     if(!unlink($filePath)){ //check if file wasn't deleted

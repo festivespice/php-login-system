@@ -120,11 +120,19 @@ p.success {
     overflow: hidden;
 }
 
+.lhs-navbar{
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;}
+
 .profile-img {
     border-radius: 50%;
     height: 4vh;
     display: inline;
     float: right;
+    padding-left: 5px;
 }
 
 .profile-page-img {
@@ -176,13 +184,18 @@ p.success {
 }
 
 .topnav .profile-tab {
-    display: flex;
+
 }
 
 .topnav {
     background-color: #67595E;
+    display: flex;
     padding: 0px 10%;
     height: 6vh;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
 }
 
 .forums-header {
@@ -240,6 +253,7 @@ p.success {
 
 .topnav a {
     float: right;
+    display: flex;
     color: #f2f2f2;
     text-align: center;
     padding: 17px 17px;
@@ -248,7 +262,9 @@ p.success {
     font-size: 1rem;
     height: 3vh;
     align-items: center;
-    justify-content: center
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 .topnav a:hover {
