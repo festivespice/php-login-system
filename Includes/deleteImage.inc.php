@@ -20,11 +20,11 @@ if(isset($_POST['submit-delete'])){
 
     //3) Delete file
     if(!unlink($filePath)){ //check if file wasn't deleted
-        header("Location: ../profile.php?deletesuccess=false");
+        header("Location: ../profile-ed.php?deletesuccess=false");
     } else {
         //if the file was deleted, we need to update profileimg
         $sql = "update profileimg pr set pr.status=1 where pr.userId=".$id.";";
         $result = mysqli_query($conn, $sql);
-        header("Location: ../profile.php?deletesuccess=true");
+        header("Location: ../profile-edit.php?deletesuccess=true");
     }
 }   
