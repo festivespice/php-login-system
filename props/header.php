@@ -21,6 +21,7 @@
 
             <div class="topnav">
                 <h2> Something </h2>
+                <div class="lhs-navbar">
                 <?php 
 
                     if(isset($_SESSION['userUid'])){ //there is currently a logged in user
@@ -28,7 +29,7 @@
                         include_once './includes/profileimg.inc.php';
 
                         echo '<a id="signup" href="./Includes/logout.inc.php">Logout</a>';
-                        echo '<a id="profile" href="profile.php" class="profile-tab"><p class="profile-text">'.$_SESSION['userUid'].'</p><img class="profile-img" src="'.$imagePath.'?'.mt_rand().'"></a>';
+                        echo '<div class="header-profile-box"><a id="profile" href="profile.php" class="profile-tab"><p class="profile-text">'.$_SESSION['userUid'].'</p><img class="profile-img" src="'.$imagePath.'?'.mt_rand().'"></a></div>';
                     } else  {
                         echo '<a id="signin" href="signin.php">Log In</a>';
                         echo '<a id="signup" href="signup.php">Sign Up</a>';
@@ -37,4 +38,5 @@
                 <a id="forums" href="forums.php">Forums</a>
                 <a id="discover" href="discover.php">About Us</a>
                 <a id="index" href="index.php">Home</a>
+                </div>
             </div>

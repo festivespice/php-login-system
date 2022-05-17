@@ -62,6 +62,7 @@ if(isset($_POST['submit-post'])){
                         }else {
                             mysqli_stmt_bind_param($stmt, "sssss", $inputFiletitle, $inputFiledesc, $fullFileName, $setImageOrder, $id);
                             mysqli_stmt_execute($stmt);
+                            mysqli_stmt_close();
 
                             //now we can upload the file: the database was updated
                             move_uploaded_file($fileTempName, $fileDestination);

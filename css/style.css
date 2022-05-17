@@ -120,11 +120,19 @@ p.success {
     overflow: hidden;
 }
 
+.lhs-navbar{
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;}
+
 .profile-img {
     border-radius: 50%;
     height: 4vh;
     display: inline;
     float: right;
+    padding-left: 5px;
 }
 
 .profile-page-img {
@@ -132,14 +140,32 @@ p.success {
     height: 25vh;
     float: left;
     margin-right: 50px;
+    max-width: 25vw;
+    padding: 10px;
+    margin-right: 50px;
 }
 
-.profile-page-img:hover {
+.profile-page-img-edit {
+    border-radius: 50%;
+    height: 25vh;
+    float: left;
+    margin-right: 50px;
+    max-width: 25vw;
+    padding: 10px;
+    margin-right: 50px;
+}
+
+.profile-page-img-edit:hover {
     border-radius: 50%;
     height: 25vh;
     float: left;
     background-color: #ddd;
     margin-right: 50px;
+    max-width: 25vw;
+}
+
+.edit-profile-btn{
+    float: right;
 }
 
 .profile-text {
@@ -152,10 +178,18 @@ p.success {
     font-size: 2rem;
     line-height: 200%;
     text-align: left;
+    overflow: auto;
 }
 .profile-header h1 {
     font-size: 2rem;
     display: block;
+    padding: 5px 0px;
+}
+.profile-header h2{
+    font-size: 1.5rem;
+    font-weight: 400;
+    display:block;
+    
 }
 .profile-header p {
     font-size: 1rem;
@@ -168,21 +202,48 @@ p.success {
     border-bottom: 7px dotted;
     width: 70%;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
-.profile-image-settings {
-    padding: 30px;
-    margin: 20px;
+.profile-settings {
+    padding: 10px;
+    background-color: gainsboro;
+    width: 45%;
+    margin-top:30px;
+}
+
+.text-settings{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-container{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    overflow:hidden;
 }
 
 .topnav .profile-tab {
-    display: flex;
+
 }
 
 .topnav {
     background-color: #67595E;
+    display: flex;
     padding: 0px 10%;
     height: 6vh;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
 }
 
 .forums-header {
@@ -223,6 +284,11 @@ p.success {
     padding: 10px;
     margin: 10px;
 }
+
+.text-settings input {
+    margin: 10px;
+}
+
 .admin-gallery-form input{
     margin: 5px;
 }
@@ -240,6 +306,7 @@ p.success {
 
 .topnav a {
     float: right;
+    display: flex;
     color: #f2f2f2;
     text-align: center;
     padding: 17px 17px;
@@ -248,7 +315,9 @@ p.success {
     font-size: 1rem;
     height: 3vh;
     align-items: center;
-    justify-content: center
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row;
 }
 
 .topnav a:hover {
@@ -264,4 +333,8 @@ p.success {
 .authentication input {
     margin: 15px auto;
     display: block;
+}
+
+button a{
+    text-decoration: none;
 }

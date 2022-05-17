@@ -71,7 +71,6 @@
 
     //uses an existing database connection to add a valid user to the 'users' table
     function createUser($conn, $name, $email, $uid, $password) {
-        $result;
         $sql = "insert into users(name, email, uid, password) values(?, ?, ?, ?);"; //check for user ID or email
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){ //does it fail?
@@ -85,8 +84,24 @@
 
             mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $uid, $hashedPassword); //two strings, and then these two strings
             mysqli_stmt_execute($stmt);
-            mysqli_stmt_close($stmt);
 
+            //also, create a row for their login...
+            $sql = "select * from users u where u.name='$name';";
+            $result = mysqli_query($conn, $sql);
+            while($row = mysqli_fetch_assoc($result)){
+                $id = $row['id'];
+                $sql = "insert into profile (bioName, userId) values (?, ?);";
+
+                if(!mysqli_stmt_prepare($stmt, $sql)){
+                    header("location: ../signup.php?error=stmt2failed&name=$name&email=$email&uid=$uid");
+                    exit();
+                }else{
+                    mysqli_stmt_bind_param($stmt, "ss", $name, $id);
+                    mysqli_stmt_execute($stmt);
+                }
+            }
+
+            mysqli_stmt_close($stmt);
             header("location: ../signup.php?error=none");
             exit(); 
         }
@@ -147,11 +162,10 @@
     }
 
     function returnUserImagePath($imageExists, $userId){
-        $imageUrl = "./uploads/"; //relative to the parent .. directory.
+        $imageUrl = "./image/profile-pictures/"; //relative to the parent .. directory.
         if($imageExists){
             $globUrl = $imageUrl."profile".$userId."*";
             $globResult = glob($globUrl); //check if this is only one. It should return all matches to the input pattern
-
             $arrWithExtension = explode(".", $globResult[0]);
             $fileExtension = $arrWithExtension[2]; //the only '.' in the name has the extension after it
             $imageUrl = $imageUrl."profile".$userId.".".$fileExtension;

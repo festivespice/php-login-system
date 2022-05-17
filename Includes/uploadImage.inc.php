@@ -26,22 +26,22 @@ if(isset($_POST['submit-upload'])){
             if(in_array($fileExtension, $allowedExtensions)){ 
                 //currently, the file passes all of our validation checks. 
                 $newFileName = "profile".$id.".".$fileExtension;
-                $fileDestination = "../uploads/".$newFileName;
+                $fileDestination = "../image/profile-pictures/".$newFileName;
 
                 //3) save file permanently
                 move_uploaded_file($fileTmpName, $fileDestination);
                 $sql = "update profileimg pr set pr.status=0 where userid='$id';"; //no input validation needed
                 $result = mysqli_query($conn, $sql);
                 
-                header("Location: ../profile.php?uploadsuccess=true");                
+                header("Location: ../profile-edit.php?uploadsuccess=true");                
             } else { //extension used is invalid
-                header("Location: ../profile.php?uploadsuccess=false&msg=invalidExtension");                
+                header("Location: ../profile-edit.php?uploadsuccess=false&msg=invalidExtension");                
             }
         } else { //file is too big: exceeds 50 MB
-            header("Location: ../profile.php?uploadsuccess=false&msg=sizeLimitExceeded");                
+            header("Location: ../profile-edit.php?uploadsuccess=false&msg=sizeLimitExceeded");                
         }
     } else { //error uploading file
-        header("Location: ../profile.php?uploadsuccess=false&msg=serverError2");                
+        header("Location: ../profile-edit.php?uploadsuccess=false&msg=serverError2");                
     }
 }
 
