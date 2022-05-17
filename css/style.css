@@ -140,14 +140,28 @@ p.success {
     height: 25vh;
     float: left;
     margin-right: 50px;
+    max-width: 25vw;
+    padding: 10px;
+    margin-right: 50px;
 }
 
-.profile-page-img:hover {
+.profile-page-img-edit {
+    border-radius: 50%;
+    height: 25vh;
+    float: left;
+    margin-right: 50px;
+    max-width: 25vw;
+    padding: 10px;
+    margin-right: 50px;
+}
+
+.profile-page-img-edit:hover {
     border-radius: 50%;
     height: 25vh;
     float: left;
     background-color: #ddd;
     margin-right: 50px;
+    max-width: 25vw;
 }
 
 .profile-text {
@@ -164,6 +178,13 @@ p.success {
 .profile-header h1 {
     font-size: 2rem;
     display: block;
+    padding: 5px 0px;
+}
+.profile-header h2{
+    font-size: 1.5rem;
+    font-weight: 400;
+    display:block;
+    
 }
 .profile-header p {
     font-size: 1rem;
@@ -176,11 +197,32 @@ p.success {
     border-bottom: 7px dotted;
     width: 70%;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
-.profile-image-settings {
-    padding: 30px;
-    margin: 20px;
+.profile-settings {
+    padding: 10px;
+    background-color: gainsboro;
+    width: 40%;
+    margin-top:30px;
+}
+
+.text-settings{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-container{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
 }
 
 .topnav .profile-tab {
@@ -236,6 +278,11 @@ p.success {
     padding: 10px;
     margin: 10px;
 }
+
+.text-settings input {
+    margin: 10px;
+}
+
 .admin-gallery-form input{
     margin: 5px;
 }

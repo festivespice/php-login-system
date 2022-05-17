@@ -8,8 +8,26 @@
             echo '<img class="profile-page-img" src="'.$imagePath.'?'.mt_rand().'">';
             echo '<div>';
             echo '<button href="./profile-edit.php" style="float:right;">Edit profile</button>';
-            echo '<h1>'.$_SESSION['userName'].'</h1>';
-            echo '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor vitae purus faucibus ornare suspendisse sed nisi.</p>';
+
+            $sql = "select * from profile pr where pr.userId='".$_SESSION['userId']."';";
+            $result = mysqli_query($conn, $sql);
+            if(mysqli_num_rows($result) > 1){
+                while($row = mysqli_fetch_assoc($result)){
+                    if(!empty($row['bioName'])){
+                        echo '<h1>'.$row['bioName'].'</h1>';
+                    }
+                    if(!empty($row['bioTitle'])){
+                        echo '<h2>'.$row['bioTitle'].'</h2>';
+                    }
+                    if(!empty($row['bioDesc'])){
+                        echo '<p>'.$row['bioDesc'].'</p>';
+                    }
+                }
+            } else {
+                echo '<h1>'.$_SESSION['userName'].'</h1>';
+            }
+            
+
             echo '</div>';
         ?>
     </div>
