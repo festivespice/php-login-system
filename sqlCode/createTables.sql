@@ -1,3 +1,12 @@
+create table if not exists powerUser (
+    id int(11) not null PRIMARY KEY AUTO_INCREMENT,
+    admin boolean not null,
+    moderator boolean not null, 
+    userId int(11) not null,
+    CONSTRAINT `fk_powerUser_users`
+        FOREIGN KEY (userId) REFERENCES users (id)
+);
+
 create table if not exists users (
     id int(11) not null PRIMARY KEY AUTO_INCREMENT,
     name varchar(128) not null, 
