@@ -23,7 +23,7 @@ if(isset($_POST['submit-post'])){
     $fileType = $inputFile["type"];
     $fileTempName = $inputFile["tmp_name"];
     $fileError = $inputFile["error"];
-    $fileSize = $inputFile["size"]; //size is in KB
+    $fileSize = $inputFile["size"]; //size is in bytes
 
     if($fileError === 0){
         $fileNameInfo = explode(".", $fileName);
@@ -42,6 +42,7 @@ if(isset($_POST['submit-post'])){
                     header("Location: ../discover.php?error=emptyInput&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                     exit();
                 } else {
+                    //validation complete
                     $sql = "select * from galleryitem;"; //we need to check data using all rows.
                     //we're using user input, so we need to use a prepared statement.
                     $stmt = mysqli_stmt_init($conn);
@@ -62,7 +63,7 @@ if(isset($_POST['submit-post'])){
                         }else {
                             mysqli_stmt_bind_param($stmt, "sssss", $inputFiletitle, $inputFiledesc, $fullFileName, $setImageOrder, $id);
                             mysqli_stmt_execute($stmt);
-                            mysqli_stmt_close();
+                            mysqli_stmt_close($stmt);
 
                             //now we can upload the file: the database was updated
                             move_uploaded_file($fileTempName, $fileDestination);
@@ -78,10 +79,13 @@ if(isset($_POST['submit-post'])){
             }
         } else {
             header("Location: ../discover.php?error=improperExtension&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+            exit();
         }
     } else {
         header("Location: ../discover.php?error=errorUploading&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
         exit();
-    }
-    
+    }  
+} else {
+    header("Location: ../discover.php");
+    exit();
 }

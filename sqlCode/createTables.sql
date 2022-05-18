@@ -46,3 +46,52 @@ create table if not exists galleryItem (
     CONSTRAINT `fk_galleryItem_users`
         FOREIGN KEY (userId) REFERENCES users (id)
 );
+
+--one admin user can have many forum groups
+--individual group, made by admins, with articles
+create table if not exists forumGroup(
+    id int(11) PRIMARY KEY AUTO_INCREMENT not null,
+    title not null varchar(128),
+    description varchar(1024),
+    imageFullName longtext,
+    orderNumber longtext not null, 
+    numberArticles int(6) not null,
+    userId int(11) not null,
+    CONSTRAINT `fk_forumGroup_users`
+        FOREIGN KEY (userId) REFERENCES users (id)
+);
+alter table forumGroup
+add numberArticles int(6) not null;
+
+--one article can have one user
+--many articles can have one group
+--individual article, made by users, with post items
+create table if not exists forumArticle(
+    id int(11) PRIMARY KEY AUTO_INCREMENT not null,
+    title varchar(128),
+    description varchar(1024),
+    imageFullName longtext,
+    orderNumber longtext not null, 
+    userId int(11) not null,
+    forumGroupId int(11) not null,
+    CONSTRAINT `fk_forumArticle_forumGroup_users_`
+        FOREIGN KEY (userId) REFERENCES users (id),
+        FOREIGN KEY (forumGroupId) REFERENCES forumGroup(id)
+);
+
+--one item can have one user
+--many items can have one article
+--individual posts made by users
+create table if not exists forumItem(
+    id int(11) PRIMARY KEY AUTO_INCREMENT not null,
+    text varchar(4096),
+    imageFullName longtext,
+    orderNumber longtext not null, 
+    userId int(11) not null,
+    forumArticleId int(11) not null,
+    CONSTRAINT `fk_forumGroup_users_forumArticle`
+        FOREIGN KEY (userId) REFERENCES users (id),
+        FOREIGN KEY (forumArticleId) REFERENCES forumArticle (id)
+);
+
+--no many-many relationships, so no need for a bridge table

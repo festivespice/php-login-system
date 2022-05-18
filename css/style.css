@@ -184,6 +184,34 @@ p.success {
 .profile-moderator{
     color:blueviolet; 
 }
+
+.fake-image{
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.forums-supergroup{
+    border: none;
+    border-left: 5px solid;
+    height: 85%;
+    padding: 20px;
+    margin: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.forums-group {
+    display: inline-flex;
+    align-items: center;
+    background-color: gainsboro;
+    padding: 10px;
+    margin: 15px;
+}
+
 .profile-header h1 {
     font-size: 2rem;
     display: block;
@@ -285,14 +313,15 @@ p.success {
 }
 
 .item-image {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size:cover;
+    background-size: cover;
+    margin-right: 10px;
 }
 
-.admin-gallery-form {
+.admin-content-form {
     background-color: gainsboro;
     display:flex;
     flex-direction: column;
