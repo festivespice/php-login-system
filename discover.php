@@ -30,7 +30,7 @@
                 while($row = mysqli_fetch_assoc($result)){
                     echo '<div class="gallery-item-container">
                     <a href="#">
-                        <div style="background-image: url(\'./image/gallery/'.$row['imageFullName'].'\');" class="item-image"></div>
+                        <div style="background-image: url(\'./image/gallery/'.$row['imageFullName'].'\');" class="gallery-image"></div>
                         <h3 class="item-title">'.$row['title'].'</h3>
                         <p class="item-desc">'.$row['description'].'</p>
                     </a>

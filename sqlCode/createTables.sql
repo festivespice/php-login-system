@@ -55,13 +55,13 @@ create table if not exists forumGroup(
     description varchar(1024),
     imageFullName longtext,
     orderNumber longtext not null, 
-    numberArticles int(6) not null,
+    numberArticles int(11) not null,
     userId int(11) not null,
     CONSTRAINT `fk_forumGroup_users`
         FOREIGN KEY (userId) REFERENCES users (id)
 );
 alter table forumGroup
-add numberArticles int(6) not null;
+add numberArticles int(11) not null;
 
 --one article can have one user
 --many articles can have one group

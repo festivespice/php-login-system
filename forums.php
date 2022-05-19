@@ -66,21 +66,23 @@
         </div>
         <div class="forums-supergroup"> <!-- Everything -->
             <?php
-                $sql = "select * from forumgroup fg order by fg.orderNumber desc";
+                $sql = "select * from forumgroup fg order by fg.orderNumber";
                 $result = mysqli_query($conn, $sql);
                 if(mysqli_num_rows($result) >= 1){
                     while($row = mysqli_fetch_assoc($result)){
                         echo '<div class="forums-group">';
                         if(!empty($row['imageFullName'])){
-                            echo '<div style="background-image: url(\'./image/forum-groups/'.$row['imageFullName'].'\');" class="item-image"></div>';
+                            echo '<div style="background-image: url(\'./image/forum-groups/'.$row['imageFullName'].'\');" class="group-image"></div>';
                         }
-                        echo '<div class="group-text">';
+                        echo "<div class='forum-link-container'>";
+                        echo "<a href='forum-articles.php?group-id=".$row['id']."&group-name=".$row['title']."' class='group-text'>";
                         echo '<h2>'.$row['title'].'</h2>';
                         if(!empty($row['description'])){
                             echo '<p>'.$row['description'].'</p>';
                         }
+                        echo '</a>';
                         echo '<button class="favorite-group">Favorite</button>';
-                        echo '</div>';
+                        echo "</div>";
                         echo '</div>';
                     }
                 }else{

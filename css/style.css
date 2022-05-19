@@ -201,7 +201,7 @@ p.success {
     margin: 15px;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
+    justify-content: space-around;
 }
 
 .forums-group {
@@ -309,16 +309,39 @@ p.success {
 
 .gallery-item-container{
     margin: 15px;
-    width: 200px;
+    max-width: 250px;
+    padding: 10px;
 }
 
-.item-image {
+.gallery-image {
+    width: 250px;
+    height: 250px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+}
+
+.group-image {
     width: 100px;
     height: 100px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     margin-right: 10px;
+}
+.group-text {
+    text-decoration: none;
+}
+
+.article-text {
+    text-decoration: none;
+}
+.forum-link-container{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .admin-content-form {
