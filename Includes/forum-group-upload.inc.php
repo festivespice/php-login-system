@@ -37,7 +37,7 @@ if(isset($_POST['submit-post'])){
                     exit();
                 }else {
                     //validation complete
-                    $sql = "select * from galleryitem;";
+                    $sql = "select * from forumgroup;";
                     $stmt = mysqli_stmt_init($conn);
                     if(!mysqli_stmt_prepare($stmt, $sql)){
                         header("Location: ../forums.php?error=stmtError&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
@@ -65,7 +65,7 @@ if(isset($_POST['submit-post'])){
                     }
                 }
             }else {
-                header("Location: ../discover.php?error=exceedsFileSize&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+                header("Location: ../forums.php?error=exceedsFileSize&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
                 exit();
             }
         }else {

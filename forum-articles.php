@@ -16,12 +16,9 @@
     </div>
     <div class="forums-body">
         <?php
-            // $sql = "select * from poweruser po where po.userId=".$_SESSION['userId'].";";
-            // $result = mysqli_query($conn, $sql);
-            // $formType="forum-group";
-            // include_once './props/admin-content-form.php';
+            include_once './props/user-content-form.php';
         ?>
-        <div class="forums-supergroup"> <!-- Most popular today -->
+        <div class="articles-supergroup"> <!-- Most popular today -->
         <?php
                 // $sql = "select * from forumgroup fg order by fg.orderNumber desc";
                 // $result = mysqli_query($conn, $sql);
@@ -45,24 +42,54 @@
                 // }            
             ?>
         </div>
-        <div class="forums-supergroup"> <!-- Everything -->
+        <div class="articles-supergroup"> <!-- Everything -->
             <?php
+                $power;
+                $sql = "select * from poweruser pu where pu.userId=".$_SESSION['userId'];
+                $result = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($result) >= 1){
+                    while($row = mysqli_fetch_assoc($result)){
+                        if($row['admin']){
+                            $power = 'admin';
+                        } else if ($row['moderator']){
+                            $power = 'moderator';
+                        }
+                    }
+                }
                 $sql = "select * from forumarticle fa where fa.forumGroupId=".$_GET['group-id']." order by fa.orderNumber";
                 $result = mysqli_query($conn, $sql);
                 if(mysqli_num_rows($result) >= 1){
                     while($row = mysqli_fetch_assoc($result)){
                         echo '<div class="forums-article">';
-                        if(!empty($row['imageFullName'])){
-                            echo '<div style="background-image: url(\'./image/forum-articles/'.$row['imageFullName'].'\');" class="article-image"></div>';
-                        }
-                        echo "<a href='forum-article.php?group-id=".$_GET['group-id']."&group-name=".$_GET['group-name']."&article-id=".$row['id']."&article-name=".$row['title']."' class='article-text'>";
-                        echo '<h2>'.$row['title'].'</h2>';
-                        if(!empty($row['description'])){
-                            echo '<p>'.$row['description'].'</p>';
-                        }
-                        echo '</a>';
-                        echo '<button class="like-article">Like</button>';
-                        echo '<button class="dislike-article">Dislike</button>';
+                            if(!empty($row['imageFullName'])){
+                                echo '<div style="background-image: url(\'./image/forum-articles/'.$row['imageFullName'].'\');" class="article-image"></div>';
+                            }
+                            echo "<div class='article-link-container'>";
+                                echo "<a href='forum-article.php?group-id=".$_GET['group-id']."&group-name=".$_GET['group-name']."&article-id=".$row['id']."&article-name=".$row['title']."' class='article-text'>";
+                                echo '<h2>'.$row['title'].'</h2>';
+                                if(!empty($row['description'])){
+                                    echo '<p>'.$row['description'].'</p>';
+                                }
+                                echo '</a>';
+                                echo '<div>';
+                                    echo '<div class="button-number">';
+                                        echo '<p>'.'0'.'</p>';
+                                        echo '<button class="article-button">Like</button>';
+                                    echo '</div>';
+                                    echo '<div class="button-number">';
+                                        echo '<p>'.'0'.'</p>';
+                                        echo '<button class="article-button">Dislike</button>';
+                                    echo '</div>';
+                                echo '</div>';
+                            echo "</div>";
+                            echo '<div class="forum-comments-container">';
+                            echo '</div>';
+                            if($power == 'admin' || $power == 'moderator' || $row['userId'] === $_SESSION['userId']){
+                                echo '<div class="button-number">';
+                                    echo '<button class="power-delete">Delete</button>';
+                                    echo '<button class="power-delete">Close</button>';
+                                echo '</div>';
+                            }
                         echo '</div>';
                     }
                 }else{

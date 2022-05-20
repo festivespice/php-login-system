@@ -204,12 +204,46 @@ p.success {
     justify-content: space-around;
 }
 
+.articles-supergroup{
+    border: none;
+    border-left: 5px solid;
+    height: 85%;
+    padding: 20px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
 .forums-group {
     display: inline-flex;
     align-items: center;
     background-color: gainsboro;
     padding: 10px;
     margin: 15px;
+} 
+
+.forums-article {
+    display: inline-flex;
+    align-items: center;
+    background-color: gainsboro;
+    padding: 10px;
+    margin: 15px;
+}
+
+.article-button{
+    padding: 5px;
+    margin: 3px;
+}
+.button-number {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.power-delete {
+    float:right;
+    margin: 3px;
 }
 
 .profile-header h1 {
@@ -337,11 +371,31 @@ p.success {
 .article-text {
     text-decoration: none;
 }
+.article-image{
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+}
+
 .forum-link-container{
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    max-width: 60%;
+}
+.article-link-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 40%;
+}
+.forum-comments-container{
+    max-width: 40%;
 }
 
 .admin-content-form {
@@ -353,6 +407,17 @@ p.success {
     padding: 10px;
     margin: 10px;
 }
+
+.user-content-form {
+    background-color: gainsboro;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    margin: 10px;
+}
+
 
 .text-settings input {
     margin: 10px;

@@ -78,6 +78,8 @@ create table if not exists forumArticle(
         FOREIGN KEY (userId) REFERENCES users (id),
         FOREIGN KEY (forumGroupId) REFERENCES forumGroup(id)
 );
+alter table forumArticle
+add numberComments int(11) not null;
 
 --one item can have one user
 --many items can have one article
