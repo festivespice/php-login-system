@@ -18,50 +18,39 @@
         ?>
         <div class="forums-supergroup"> <!-- Most popular today -->
         <?php
-                // $sql = "select * from forumgroup fg order by fg.orderNumber desc";
-                // $result = mysqli_query($conn, $sql);
-                // if(mysqli_num_rows($result) >= 1){
-                //     while($row = mysqli_fetch_assoc($result)){
-                //         echo '<div class="forums-group">';
-                //         if(!empty($row['imageFullName'])){
-                //             echo '<div class="fake-image" href="'.$row['imageFullName'].'"></div>';
-                //         }
-                //         echo '<div class="group-text">';
-                //         echo '<h2>'.$row['title'].'</h2>';
-                //         if(!empty($row['description'])){
-                //             echo '<p>'.$row['description'].'</p>';
-                //         }
-                //         echo '<button class="favorite-group">Favorite</button>';
-                //         echo '</div>';
-                //         echo '</div>';
-                //     }
-                // }else{
-                //     echo "<p>Nothing yet!</p>";
-                // }            
+                        
             ?>
         </div>
         <div class="forums-supergroup"> <!-- Favorites -->
         <?php
-                // $sql = "select * from forumgroup fg order by fg.orderNumber desc";
-                // $result = mysqli_query($conn, $sql);
-                // if(mysqli_num_rows($result) >= 1){
-                //     while($row = mysqli_fetch_assoc($result)){
-                //         echo '<div class="forums-group">';
-                //         if(!empty($row['imageFullName'])){
-                //             echo '<div class="fake-image" href="'.$row['imageFullName'].'"></div>';
-                //         }
-                //         echo '<div class="group-text">';
-                //         echo '<h2>'.$row['title'].'</h2>';
-                //         if(!empty($row['description'])){
-                //             echo '<p>'.$row['description'].'</p>';
-                //         }
-                //         echo '<button class="favorite-group">Favorite</button>';
-                //         echo '</div>';
-                //         echo '</div>';
-                //     }
-                // }else{
-                //     echo "<p>Nothing yet!</p>";
-                // }            
+            $sql = "select * from forumgroup_userfavorites_bridge fubr where fubr.userId=".$_SESSION['userId'].";";
+            $favoritesResult = mysqli_query($conn, $sql);
+            if(mysqli_num_rows($favoritesResult) >= 1){
+                while($favoritesRow = mysqli_fetch_assoc($favoritesResult)){
+                    $sql = "select * from forumgroup fg where fg.id=".$favoritesRow['forumGroupId'].";";
+                    $articlesResult = mysqli_query($conn, $sql);
+                    if(mysqli_num_rows($articlesResult) == 1){ 
+                        while($articlesRow = mysqli_fetch_assoc($articlesResult)){
+                            echo '<div class="forums-group">';
+                            if(!empty($articlesRow['imageFullName'])){
+                                echo '<div style="background-image: url(\'./image/forum-groups/'.$articlesRow['imageFullName'].'\');" class="group-image"></div>';
+                            }
+                            echo "<div class='forum-link-container'>";
+                            echo "<a href='forum-articles.php?group-id=".$articlesRow['id']."&group-name=".$articlesRow['title']."' class='group-text'>";
+                            echo '<h2>'.$articlesRow['title'].'</h2>';
+                            if(!empty($articlesRow['description'])){
+                                echo '<p>'.$articlesRow['description'].'</p>';
+                            }
+                            echo '</a>';
+                            echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$articlesRow['id'].', '.$_SESSION['userId'].')">Un-favorite</button>';                    
+                            echo "</div>";
+                            echo '</div>';
+                        }
+                    }    
+                }
+            }else{
+                echo "<p>Nothing in your favorites yet!</p>";
+            }                
             ?>
         </div>
         <div class="forums-supergroup"> <!-- Everything -->
@@ -81,7 +70,13 @@
                             echo '<p>'.$row['description'].'</p>';
                         }
                         echo '</a>';
-                        echo '<button class="favorite-group">Favorite</button>';
+                        $sql = "select * from forumgroup_userfavorites_bridge fubr where fubr.forumGroupId=".$row['id']." and fubr.userId=".$_SESSION['userId'].";";
+                        $favoritesResult = mysqli_query($conn, $sql);
+                        if(mysqli_num_rows($favoritesResult) == 1) { //assume to be favorited, true
+                            echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Un-favorite</button>';
+                        } else {
+                            echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Favorite</button>';
+                        }
                         echo "</div>";
                         echo '</div>';
                     }
@@ -92,6 +87,7 @@
         </div>
     </div>
 </div>
+<script src="./js/favoriteButton.js"></script>
 <?php
     include_once './props/footer.php';
 ?>

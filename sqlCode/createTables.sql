@@ -55,13 +55,13 @@ create table if not exists forumGroup(
     description varchar(1024),
     imageFullName longtext,
     orderNumber longtext not null, 
-    numberArticles int(11) not null,
     userId int(11) not null,
     CONSTRAINT `fk_forumGroup_users`
         FOREIGN KEY (userId) REFERENCES users (id)
 );
 alter table forumGroup
 add numberArticles int(11) not null;
+add numberFavorites int(11) not null;
 
 --one article can have one user
 --many articles can have one group
@@ -79,7 +79,11 @@ create table if not exists forumArticle(
         FOREIGN KEY (forumGroupId) REFERENCES forumGroup(id)
 );
 alter table forumArticle
-add numberComments int(11) not null;
+add numberComments int(11) not null default 0; 
+add numberDislikes int(11) not null default 0;
+add numberLikes int(11) not null default 0;
+add isClosed boolean not null default false; 
+
 
 --one item can have one user
 --many items can have one article
@@ -95,5 +99,15 @@ create table if not exists forumItem(
         FOREIGN KEY (userId) REFERENCES users (id),
         FOREIGN KEY (forumArticleId) REFERENCES forumArticle (id)
 );
+alter table forumItem
+add numberDislikes int(11) not null default 0;
+add numberLikes int(11) not null default 0;
 
---no many-many relationships, so no need for a bridge table
+create table if not exists forumGroup_userFavorites_bridge(
+    forumGroupId int(11) not null,
+    userId int(11) not null,
+    PRIMARY KEY (forumGroupId, userId),
+    CONSTRAINT `fk_forumGroup_usersFavorites_bridge`
+        FOREIGN KEY (forumGroupId) REFERENCES forumGroup(id),
+        FOREIGN KEY (userId) REFERENCES users (id)
+);
