@@ -78,10 +78,10 @@ if(isset($_POST['submit-moderation'])){
         if(!mysqli_stmt_prepare($stmt, $moderationSql)){
             //stmt error
         }else {
-            mysqli_stmt_bind_param($stmt, "sssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId, $articleId);
+            mysqli_stmt_bind_param($stmt, "ssssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId, $articleId);
             mysqli_stmt_execute($stmt);
         }
-        header("Location: forums.php");
+        header("Location: ../../forum-articles.php?group-id=".$groupId."&group-name=".$groupName);
         exit();
     } else if ($moderationArea == "item"){
         if ($pageType == "delete"){
@@ -98,10 +98,10 @@ if(isset($_POST['submit-moderation'])){
         if(!mysqli_stmt_prepare($stmt, $moderationSql)){
             //stmt error
         }else {
-            mysqli_stmt_bind_param($stmt, "sssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId, $articleId, $itemId);
+            mysqli_stmt_bind_param($stmt, "sssssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId, $articleId, $itemId);
             mysqli_stmt_execute($stmt);
         }
-        header("Location: forums.php");
+        header("Location: ../../forums.php");
         exit();
     }
 }

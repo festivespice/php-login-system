@@ -13,10 +13,18 @@ function administrativePage(moderatedId, groupId, groupName, pageType){
     }
 }
 
-function administrativePageArticle(articleId, groupId, groupName, pageType){
-
+function administrativePageArticle(articleId, moderatedId, groupId, groupName, articleName, pageType){
+    let destinationURL;
+    console.log(pageType);
+    if(pageType == 'delete' || pageType == 'restore' || pageType == 'close' || pageType == 'open'){
+        destinationURL = "forum-group-action.php?article-id=" + articleId + "&moderated-id=" + moderatedId + "&group-id=" + groupId + "&group-name=" + groupName + "&article-name=" + articleName + "&page-type=" + pageType;
+        window.location.href = destinationURL; 
+    } else {
+        destinationURL = "forums-articles.php?group-id=" + groupId + "&group-name=" + groupName;
+        window.location.href = destinationURL; 
+    }
 }
 
-function administrativePageItem(itemId, articleId, groupId, groupName, pageType){
+function administrativePageItem(itemId, moderatedId, articleId, groupId, groupName, pageType){
 
 }

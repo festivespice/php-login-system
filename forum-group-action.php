@@ -22,12 +22,12 @@
                 $itemId = $_GET['item-id'];
                 $action = "./includes/forums/forums-action.inc.php?moderated-id=".$moderatedId."&group-id=".$groupId."&page-type=".$pageType."&article-id=".$articleId."&group-name=".$groupName."&article-name=".$articleName."&item-id=".$itemId;
                 $moderationArea = "item";
-                echo '<h2>'.$pageType.' forum item from group '.$groupName.', article '.$articleName.'.</h2>';
+                echo '<h2>'.$pageType.' forum item: from group "'.$groupName.'", article "'.$articleName.'".</h2>'; //what are we doing and to what object?
             }else {
-                echo '<h2>'.$pageType.' forum article from group '.$groupName.', article '.$articleName.'.</h2>';
+                echo '<h2>'.$pageType.' forum article: from group "'.$groupName.'", article "'.$articleName.'".</h2>';
             }
         }else {
-            echo '<h2>'.$pageType.' forum group '.$groupName.'.</h2>';
+            echo '<h2>'.$pageType.' forum group: '.$groupName.'.</h2>';
         }
         echo '<form class="user-content-form" action="'.$action.'" method="POST">';
             if($moderationArea == "group"){
@@ -51,7 +51,25 @@
                     }
                 }
             } else if ($moderationArea == "article") {
-                echo '<p>lol</p>';
+                $articleSql = "select * from forumarticle fa where fa.forumGroupId=".$groupId." and fa.id=".$articleId.";";
+                $articleResult = mysqli_query($conn, $articleSql);
+                if(mysqli_num_rows($articleResult) >= 1){
+                    while($articleRow = mysqli_fetch_assoc($articleResult)){
+                        echo '<div class="forums-article">';
+                            if(!empty($articleRow['imageFullName'])){
+                                echo '<div style="background-image: url(\'./image/forum-articles/'.$articleRow['imageFullName'].'\');" class="article-image"></div>';
+                            }
+                            echo "<div class='article-link-container'>";
+                                echo "<a href='forum-article.php?group-id=".$groupId."&group-name=".$groupName."&article-id=".$articleId."&article-name=".$articleName."' class='article-text'>";
+                                echo '<h2>'.$articleRow['title'].'</h2>';
+                                if(!empty($articleRow['description'])){
+                                    echo '<p>'.$articleRow['description'].'</p>';
+                                }
+                                echo '</a>';
+                            echo "</div>";
+                        echo '</div>';
+                    }
+                }           
             } else if ($moderationArea == "item") {
                 echo '<p>lol</p>';
             }
