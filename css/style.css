@@ -418,6 +418,9 @@ p.success {
     margin: 10px;
 }
 
+.closed{
+    background-color: gray;
+}
 
 .text-settings input {
     margin: 10px;

@@ -13,12 +13,10 @@ function getJsonFromUrl(url)
 function applyScroll(){
     const queryString =  window.location.search;
     const parameters = getJsonFromUrl(queryString);
-    console.log(parameters);
     if(parameters.food){
         console.log("WHAT");
     }
     if(parameters.scrollY){
-        console.log("yes");
         $(document).scrollTop(parameters.scrollY);
     }
 }
