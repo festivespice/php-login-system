@@ -1,0 +1,71 @@
+<?php
+    include_once './props/header.php';
+?>
+<div class="currentPageContentSized">
+    <?php //the goal is to dynamically create a title, show what's being moderated, and include a form.
+        $moderatedId = $_GET['moderated-id'];
+        $groupId = $_GET['group-id'];
+        $pageType = $_GET['page-type'];
+        $groupName = $_GET['group-name'];
+        $articleId;
+        $articleName;
+        $groupName;
+        $itemId;
+        $moderationArea = "group";
+        $action = "./includes/forums/forums-action.inc.php?moderated-id=".$moderatedId."&group-id=".$groupId."&page-type=".$pageType."&group-name=".$groupName;
+        if(isset($_GET['article-id'])){
+            $articleId = $_GET['article-id'];
+            $articleName = $_GET['article-name'];
+            $action = "./includes/forums/forums-action.inc.php?moderated-id=".$moderatedId."&group-id=".$groupId."&page-type=".$pageType."&article-id=".$articleId."&group-name=".$groupName."&article-name=".$articleName;
+            $moderationArea = "article";
+            if(isset($_GET['item-id'])){
+                $itemId = $_GET['item-id'];
+                $action = "./includes/forums/forums-action.inc.php?moderated-id=".$moderatedId."&group-id=".$groupId."&page-type=".$pageType."&article-id=".$articleId."&group-name=".$groupName."&article-name=".$articleName."&item-id=".$itemId;
+                $moderationArea = "item";
+                echo '<h2>'.$pageType.' forum item from group '.$groupName.', article '.$articleName.'.</h2>';
+            }else {
+                echo '<h2>'.$pageType.' forum article from group '.$groupName.', article '.$articleName.'.</h2>';
+            }
+        }else {
+            echo '<h2>'.$pageType.' forum group '.$groupName.'.</h2>';
+        }
+        echo '<form class="user-content-form" action="'.$action.'" method="POST">';
+            if($moderationArea == "group"){
+                $sql = "select * from forumgroup fg where fg.id=".$groupId.";";
+                $result = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($result) == 1){
+                    while($row = mysqli_fetch_assoc($result)){
+                        echo '<div class="forums-group">';
+                            if(!empty($row['imageFullName'])){
+                                echo '<div style="background-image: url(\'./image/forum-groups/'.$row['imageFullName'].'\');" class="group-image"></div>';
+                            }
+                            echo "<div class='forum-link-container'>";
+                                echo "<a href='forum-articles.php?group-id=".$row['id']."&group-name=".$row['title']."' class='group-text'>";
+                                echo '<h2>'.$row['title'].'</h2>';
+                                if(!empty($row['description'])){
+                                    echo '<p>'.$row['description'].'</p>';
+                                }
+                                echo '</a>';
+                            echo "</div>";
+                        echo '</div>';
+                    }
+                }
+            } else if ($moderationArea == "article") {
+                echo '<p>lol</p>';
+            } else if ($moderationArea == "item") {
+                echo '<p>lol</p>';
+            }
+            echo '<input type="text" name="reason" placeholder="Reason for moderation">';
+                if($pageType == "delete" || $pageType == "close"){
+                    echo '<div>
+                    <input type="checkbox" id="ban-user" name="ban-user">
+                    <label for="ban-user">Ban user</label>
+                </div>';
+                }
+                echo '<button type="submit" name="submit-moderation">Submit</button>
+            </form>';
+        ?>
+</div>
+<?php
+    include_once './props/footer.php';
+?>
