@@ -13,9 +13,6 @@ function getJsonFromUrl(url)
 function applyScroll(){
     const queryString =  window.location.search;
     const parameters = getJsonFromUrl(queryString);
-    if(parameters.food){
-        console.log("WHAT");
-    }
     if(parameters.scrollY){
         $(document).scrollTop(parameters.scrollY);
     }

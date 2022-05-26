@@ -122,6 +122,16 @@ create table if not exists moderation(
         FOREIGN KEY (itemId) references forumItem(id)
 );
 
+create table if not exists forumArticle_usersLikes_bridge(
+    articleId int(11) not null,
+    userId int(11) not null,
+    likesArticle boolean,
+    dislikesArticle boolean,
+    PRIMARY KEY (articleId, userId),
+    CONSTRAINT `fk_forumArticles_userLikes_bridge`
+        FOREIGN KEY (articleId) REFERENCES forumArticle(id),
+        FOREIGN KEY (userId) REFERENCES users (id)
+);
 
 create table if not exists forumGroup_userFavorites_bridge(
     forumGroupId int(11) not null,

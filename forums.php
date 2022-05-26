@@ -99,15 +99,15 @@
                             if($power == 'admin'){
                                 echo '<div class="button-number">';
                                     if($row['isDeleted']){//will be 1 or true or is deleted
-                                        echo '<button id="restore" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Delete</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
+                                        echo '<button id="restore" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Delete</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
                                     }else{
-                                        echo '<button id="delete" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Delete</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
+                                        echo '<button id="delete" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Delete</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
                                     }
     
                                     if($row['isClosed']){
-                                        echo '<button id="open" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Open</button>';
+                                        echo '<button id="open" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Open</button>';
                                     }else{
-                                        echo '<button id="close" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Close</button>';
+                                        echo '<button id="close" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Close</button>';
                                     }
                                 echo '</div>';
                             }
@@ -140,15 +140,15 @@
                             if($power == 'admin'){
                                 echo '<div class="button-number">';
                                     if($row['isDeleted']){//will be 1 or true or is deleted
-                                        echo '<button id="restore" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Restore</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
+                                        echo '<button id="restore" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Restore</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
                                     }else{
-                                        echo '<button id="delete" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Delete</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
+                                        echo '<button id="delete" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Delete</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
                                     }
     
                                     if($row['isClosed']){
-                                        echo '<button id="open" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Open</button>';
+                                        echo '<button id="open" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Open</button>';
                                     }else{
-                                        echo '<button id="close" class="power-delete" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Close</button>';
+                                        echo '<button id="close" class="power-delete article-button" onclick="administrativePage('.$row['userId'].', '.$row['id'].', \''.$row['title'].'\', this.id)">Close</button>';
                                     }
                                 echo '</div>';
                             }
