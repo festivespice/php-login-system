@@ -55,7 +55,7 @@
         </div>
         <div class="forums-supergroup"> <!-- Everything -->
             <?php
-                $power;
+                $power = "";
                 $sql = "select * from poweruser pu where pu.userId=".$_SESSION['userId'];
                 $result = mysqli_query($conn, $sql);
                 if(mysqli_num_rows($result) >= 1){
@@ -82,19 +82,21 @@
                                 echo '<div style="background-image: url(\'./image/forum-groups/'.$row['imageFullName'].'\');" class="group-image"></div>';
                             }
                             echo "<div class='forum-link-container'>";
-                            echo "<a href='forum-articles.php?group-id=".$row['id']."&group-name=".$row['title']."' class='group-text'>";
-                            echo '<h2>'.$row['title'].'</h2>';
-                            if(!empty($row['description'])){
-                                echo '<p>'.$row['description'].'</p>';
-                            }
-                            echo '</a>';
-                            $sql = "select * from forumgroup_userfavorites_bridge fubr where fubr.forumGroupId=".$row['id']." and fubr.userId=".$_SESSION['userId'].";";
-                            $favoritesResult = mysqli_query($conn, $sql);
-                            if(mysqli_num_rows($favoritesResult) == 1) { //assume to be favorited, true
-                                echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Un-favorite</button>';
-                            } else {
-                                echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Favorite</button>';
-                            }
+                                echo "<a href='forum-articles.php?group-id=".$row['id']."&group-name=".$row['title']."' class='group-text'>";
+                                echo '<h2>'.$row['title'].'</h2>';
+                                if(!empty($row['description'])){
+                                    echo '<p>'.$row['description'].'</p>';
+                                }
+                                echo '</a>';
+                                $sql = "select * from forumgroup_userfavorites_bridge fubr where fubr.forumGroupId=".$row['id']." and fubr.userId=".$_SESSION['userId'].";";
+                                $favoritesResult = mysqli_query($conn, $sql);
+                                if(mysqli_num_rows($favoritesResult) == 1) { //assume to be favorited, true
+                                    echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Un-favorite</button>';
+                                } else {
+                                    echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Favorite</button>';
+                                }
+                                echo "<p>Favorites: ".$row['numberFavorites']."</p>";
+                                echo "<p>Articles: ".$row['numberArticles']."</p>";
                             echo "</div>";
                             if($power == 'admin'){
                                 echo '<div class="button-number">';
@@ -136,6 +138,8 @@
                             } else {
                                 echo '<button id="favorite-forum-group" class="favorite-group" onclick="favoriteGroup('.$row['id'].', '.$_SESSION['userId'].')">Favorite</button>';
                             }
+                            echo "<p>Favorites: ".$row['numberFavorites']."</p>";
+                            echo "<p>Articles: ".$row['numberArticles']."</p>";
                             echo "</div>";
                             if($power == 'admin'){
                                 echo '<div class="button-number">';

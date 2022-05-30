@@ -9,6 +9,7 @@ if(isset($_POST['submit-moderation'])){
     $reason = $_POST['reason'];
     $banUser; //banning users doesn't do anything yet. 
     $sql;
+    $deleteOrRestoreSql;
     $articleId;
     $articleName;
     $groupName;
@@ -34,6 +35,8 @@ if(isset($_POST['submit-moderation'])){
     }
 
     //first, make the moderation. Then, update the moderation table. 
+    //after deleting/restoring an article, update the number of articles in the group.
+    //after deleting/restoring a comment, update the number of comments in the article. 
     if($moderationArea == "group"){
         echo $pageType;
         if($pageType == "close"){
@@ -63,8 +66,10 @@ if(isset($_POST['submit-moderation'])){
         if($pageType == "close"){
             $sql = "update forumarticle fa set fa.isClosed=true where fa.id=".$articleId.";";
         } else if ($pageType == "delete"){
+            $deleteOrRestoreSql = "update forumgroup fg set fg.numberArticles=fg.numberArticles-1 where fg.id=".$groupId.";";
             $sql = "update forumarticle fa set fa.isDeleted=true where fa.id=".$articleId.";";
         } else if ($pageType == "restore"){
+            $deleteOrRestoreSql = "update forumgroup fg set fg.numberArticles=fg.numberArticles+1 where fg.id=".$groupId.";";
             $sql = "update forumarticle fa set fa.isDeleted=false where fa.id=".$articleId.";";
         } else if ($pageType == "open") {
             $sql = "update forumarticle fa set fa.isClosed=false where fa.id=".$articleId.";";
@@ -73,6 +78,9 @@ if(isset($_POST['submit-moderation'])){
             exit();
         }
         $result = mysqli_query($conn, $sql);
+        if(isset($deleteOrRestoreSql)){ //if we're deleting or restoring, update the appropriate counts. 
+            $delResResult=mysqli_query($conn, $deleteOrRestoreSql);
+        }
         $moderationSql="insert into moderation (reason, moderationType, moderatorUserId, moderatedUserId, groupId, articleId) values (?, ?, ?, ?, ?, ?);";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $moderationSql)){
@@ -85,14 +93,19 @@ if(isset($_POST['submit-moderation'])){
         exit();
     } else if ($moderationArea == "item"){
         if ($pageType == "delete"){
+            $deleteOrRestoreSql = "update forumarticle fa fa.numberComments=fa.numberComments-1 where fa.id=".$articleId.";";
             $sql = "update forumitem fi set fi.isDeleted=true where fi.id=".$itemId.";";
         } else if ($pageType == "restore"){
+            $deleteOrRestoreSql = "update forumarticle fa fa.numberComments=fa.numberComments+1 where fa.id=".$articleId.";";
             $sql = "update forumitem fi set fi.isDeleted=false where fi.id=".$itemId.";";
         } else {
             header("Location: ../../forums.php");
             exit();
         }
         $result = mysqli_query($conn, $sql);
+        if(isset($deleteOrRestoreSql)){ //if we're deleting or restoring, update the appropriate counts. 
+            $delResResult=mysqli_query($conn, $deleteOrRestoreSql);
+        }
         $moderationSql="insert into moderation (reason, moderationType, moderatorUserId, moderatedUserId, groupId, articleId, itemId) values (?, ?, ?, ?, ?, ?, ?);";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $moderationSql)){

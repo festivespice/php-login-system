@@ -3,6 +3,7 @@
 ?>
 <div class="currentPageContentSized">
     <?php //the goal is to dynamically create a title, show what's being moderated, and include a form.
+        $userId = $_SESSION['userId'];
         $moderatedId = $_GET['moderated-id'];
         $groupId = $_GET['group-id'];
         $pageType = $_GET['page-type'];
@@ -12,6 +13,19 @@
         $groupName;
         $itemId;
         $moderationArea = "group";
+        $power = "";
+        $sql = "select * from poweruser pu where pu.userId=".$userId.";";
+        $result = mysqli_query($conn, $sql);
+        if(mysqli_num_rows($result) == 1){
+            while($row = mysqli_fetch_assoc($result)){
+                if($row['admin']){
+                    $power = "admin";
+                }else if($row['moderator']){
+                    $power = "moderator";
+                }
+            }
+        }
+        //First, what type of thing are we acting on? A group, article, or item? 
         $action = "./includes/forums/forums-action.inc.php?moderated-id=".$moderatedId."&group-id=".$groupId."&page-type=".$pageType."&group-name=".$groupName;
         if(isset($_GET['article-id'])){
             $articleId = $_GET['article-id'];
@@ -74,14 +88,14 @@
                 echo '<p>lol</p>';
             }
             echo '<input type="text" name="reason" placeholder="Reason for moderation">';
-                if($pageType == "delete" || $pageType == "close"){
-                    echo '<div>
-                    <input type="checkbox" id="ban-user" name="ban-user">
-                    <label for="ban-user">Ban user</label>
+            if(($pageType == "delete" || $pageType == "close") && ($power == "moderator" || $power == "admin")){
+                echo '<div>
+                <input type="checkbox" id="ban-user" name="ban-user">
+                <label for="ban-user">Ban user</label>
                 </div>';
-                }
-                echo '<button type="submit" name="submit-moderation">Submit</button>
-            </form>';
+            }
+            echo '<button type="submit" name="submit-moderation">Submit</button>
+        </form>';
         ?>
 </div>
 <?php

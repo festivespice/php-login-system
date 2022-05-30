@@ -24,8 +24,15 @@ if(!isset($_GET['group-id']) || !isset($_GET['user-id'])){
             mysqli_stmt_bind_param($stmt, "ss", $groupId, $userId);
             mysqli_stmt_execute($stmt);
             //successfully deleted (unfavorited)
-            header("Location: ../../forums.php?removed=success&scrollY=".$scrollY);
-            exit();
+            $sql = "update forumgroup fg set fg.numberFavorites=fg.numberFavorites-1 where fg.id=".$groupId.";";
+            if(!mysqli_stmt_prepare($stmt, $sql)){
+                header("Location: ../../forums.php?error=stmt3&scrollY=".$scrollY);
+                exit();
+            }else{//successfully updated
+                mysqli_stmt_execute($stmt);
+                header("Location: ../../forums.php?removed=success&scrollY=".$scrollY);
+                exit();
+            }
         }
     } else {
         //haven't favorited yet, so then insert row
@@ -38,12 +45,19 @@ if(!isset($_GET['group-id']) || !isset($_GET['user-id'])){
             mysqli_stmt_bind_param($stmt, "ss", $groupId, $userId);
             mysqli_stmt_execute($stmt);
 
-            //success
-            header("Location: ../../forums.php?added=success&scrollY=".$scrollY);
-            exit();
+            //success... update total number of favorites
+            $sql = "update forumgroup fg set fg.numberFavorites=fg.numberFavorites+1 where fg.id=".$groupId.";";
+            if(!mysqli_stmt_prepare($stmt, $sql)){
+                header("Location: ../../forums.php?error=stmt3&scrollY=".$scrollY);
+                exit();
+            }else{ //successfully updated
+                mysqli_stmt_execute($stmt);
+                header("Location: ../../forums.php?added=success&scrollY=".$scrollY);
+                exit();
+            }
         }
     }
-    header("Location: ../../forums.php?WHAT");
+    header("Location: ../../forums.php?notLoggedIn");
     exit();
 }
  

@@ -32,7 +32,7 @@
         </div>
         <div class="articles-supergroup"> <!-- Everything -->
             <?php
-                $power;
+                $power = "";
                 $groupName = $_GET['group-name'];
                 $groupId = $_GET['group-id'];
                 $userId = $_SESSION['userId'];
@@ -97,9 +97,9 @@
                                             }
                                         echo '</div>';
                                         echo '<div class="button-number">';
-                                            if(!$row['isClosed']){
+                                            if(!$row['isClosed']){ 
+                                                echo '<p>'.$row['numberDislikes'].'</p>';
                                                 if(isset($userDislikes)){
-                                                    echo '<p>'.$row['numberDislikes'].'</p>';
                                                     if($userDislikes){
                                                         echo '<button id="disliked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Disliked</button>';
                                                     }else{
@@ -112,11 +112,12 @@
                                                 echo '<p class="article-button">Dislikes: '.$row['numberDislikes'].'</p>';
                                             }
                                         echo '</div>';
+                                        echo "<p>Comments: ".$row['numberComments']."</p>"; 
                                     echo '</div>';
                                 echo "</div>";
                                 echo '<div class="forum-comments-container">';
                                 echo '</div>';
-                                if($power == 'admin' || $power == 'moderator'){ //somehow, we need to allow users to delete their own articles
+                                if($power == 'admin' || $power == 'moderator' || $userId == $row['userId']){ //somehow, we need to allow users to delete their own articles
                                     echo '<div class="button-number">';
                                         if($row['isDeleted']){//will be 1 or true or is deleted
                                             echo '<button id="restore" class="power-delete article-button" onclick="administrativePageArticle('.$row['id'].', '.$userId.', '.$row['forumGroupId'].', \''.$groupName.'\', \''.$row['title'].'\', this.id)">Restore</button>'; //the quotes magic here is just for escaping and putting quotes around a string.
@@ -193,6 +194,7 @@
                                                 echo '<p>Dislikes: '.$row['numberDislikes'].'</p>';
                                             }
                                         echo '</div>';
+                                        echo "<p>Comments: ".$row['numberComments']."</p>"; 
                                     echo '</div>';
                                 echo "</div>";
                                 echo '<div class="forum-comments-container">';
