@@ -3,8 +3,31 @@
 session_start();
 include_once '../dbh.inc.php';
 $groupId = $_GET['group-id'];
-$groupName = $_GET['group-name'];
 $articleId = $_GET['article-id'];
+
+//first, check if either the group or the article are closed or deleted.
+$sql = "select * from forumgroup fg where fg.id = ".$groupId.";";
+$result = mysqli_query($conn, $sql);
+if(mysqli_num_rows($result) == 1){
+    while($row = mysqli_fetch_assoc($result)){
+        if($row['isClosed'] == 1 || $row['isDeleted'] == 1){ 
+            header("Location: ../../forums.php?deletedOrClosed");
+            exit();
+        }
+    }
+}
+$sql = "select * from forumarticle fa where fa.id = ".$articleId.";";
+$result = mysqli_query($conn, $sql);
+if(mysqli_num_rows($result) == 1){
+    while($row = mysqli_fetch_assoc($result)){
+        if($row['isClosed'] == 1 || $row['isDeleted'] == 1){ 
+            header("Location: ../../forum-articles.php?deletedOrClosedArticle&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
+            exit();
+        }
+    }
+}
+
+$groupName = $_GET['group-name'];
 $userOpinion = $_GET['user-opinion'];
 $scrollY = $_GET['scroll-y'];
 $userId = $_SESSION['userId'];

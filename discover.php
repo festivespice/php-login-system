@@ -44,10 +44,12 @@
     </div>
     <?php
         //build the form...
-        $sql = "select * from poweruser pr where userId=".$_SESSION['userId'].";";
-        $result = mysqli_query($conn, $sql);
-        $formType="gallery";
-        include_once './props/admin-content-form.php';
+        if(isset($_SESSION['userId'])){
+            $sql = "select * from poweruser pr where userId=".$_SESSION['userId'].";";
+            $result = mysqli_query($conn, $sql);
+            $formType="gallery";
+            include_once './props/admin-content-form.php';
+        }
     ?>
 </div>
 <?php

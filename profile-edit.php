@@ -10,7 +10,7 @@
         <hr class="profile-hr">
         <div class="settings-container">
             <div class="profile-settings">
-                <form class="text-settings" action="./includes/updateProfile.inc.php" method="POST">
+                <form class="text-settings" action="./includes/profile/updateProfile.inc.php" method="POST">
                     <?php
                         //no input validation needed.
                         $sql = "select * from profile pr where userId=".$_SESSION['userId'].";";
@@ -41,11 +41,11 @@
                 ?>
             </div>  
             <div class="profile-settings">
-                <form action="./includes/uploadImage.inc.php" method="POST" enctype="multipart/form-data">
+                <form action="./includes/profile/uploadImage.inc.php" method="POST" enctype="multipart/form-data">
                     <input type="file" name="file">
                     <button type="submit" name="submit-upload">Upload</button>
                 </form>
-                <form action="./includes/deleteImage.inc.php" method="POST">
+                <form action="./includes/profile/deleteImage.inc.php" method="POST">
                     <button type="submit" name="submit-delete">Delete</button>
                 </form>
             </div>

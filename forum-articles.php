@@ -1,5 +1,9 @@
 <?php
     include_once './props/header.php';
+    if(!isset($_SESSION['userId'])){ //if the user isn't logged in, a database connection isn't used. We'll use one here.
+        include_once './includes/dbh.inc.php';
+        include_once './includes/functions.inc.php';
+    }
 ?>
 <div class="currentPage">
     <div class="forums-header">
@@ -21,7 +25,7 @@
     </div>
     <div class="forums-body">
         <?php
-            if(!$isClosed){
+            if(!$isClosed && isset($_SESSION['userId'])){
                 include_once './props/user-content-form.php';
             }
         ?>
@@ -35,19 +39,25 @@
                 $power = "";
                 $groupName = $_GET['group-name'];
                 $groupId = $_GET['group-id'];
-                $userId = $_SESSION['userId'];
-                $sql = "select * from poweruser pu where pu.userId=".$_SESSION['userId'];
-                $result = mysqli_query($conn, $sql);
-                if(mysqli_num_rows($result) >= 1){
-                    while($row = mysqli_fetch_assoc($result)){
-                        if($row['admin']){
-                            $power = 'admin';
-                        } else if ($row['moderator']){
-                            $power = 'moderator';
+                $userId = 0;
+                if(isset($_SESSION['userId'])){
+                    $groupName = $_GET['group-name'];
+                    $groupId = $_GET['group-id'];
+                    $userId = $_SESSION['userId'];
+                    $sql = "select * from poweruser pu where pu.userId=".$_SESSION['userId'];
+                    $result = mysqli_query($conn, $sql);
+                    if(mysqli_num_rows($result) >= 1){
+                        while($row = mysqli_fetch_assoc($result)){
+                            if($row['admin']){
+                                $power = 'admin';
+                            } else if ($row['moderator']){
+                                $power = 'moderator';
+                            }
                         }
                     }
                 }
 
+                //for the current forumgroup, grab all of the articles according to it. 
                 $sql = "select * from forumarticle fa where fa.forumGroupId=".$_GET['group-id']." order by fa.orderNumber";
                 $result = mysqli_query($conn, $sql);
                 if(mysqli_num_rows($result) >= 1){
@@ -68,20 +78,41 @@
                                         echo '<p>'.$row['description'].'</p>';
                                     }
                                     echo '</a>';
+
+                                    //for each article, grab the profile image URL and the uid of the writer.
+                                    $profileImageCheck = checkIfUserImageExists($conn, $row['userId']);
+                                    $profileImageUrl = returnUserImagePath($profileImageCheck, $row['userId']);
+                                    $userName = "user";
+                                    $userSql = "select * from users u where u.id=".$row['userId'].";";
+                                    $userResult = mysqli_query($conn, $userSql);
+                                    if(mysqli_num_rows($userResult) == 1){
+                                        while($userRow = mysqli_fetch_assoc($userResult)){
+                                            $userName = $userRow['uid'];
+                                        }
+                                    }else{
+                                        echo "<p>This shouldn't be happening.</p>";
+                                    }
+                                    //for each article, create a username/profile picture box.
+                                    echo '<div class="header-profile-box"><p class="profile-text">'.$userName.'</p><img class="profile-img" src="'. $profileImageUrl.'?'.mt_rand().'"></div>'; 
+
+                                    //for each article, show the number of likes/dislikes and comments. Also, provide the ability to do these things. 
                                     echo '<div>';
-                                        $userSql = "select * from forumarticle_userslikes_bridge faub where faub.articleId=".$row['id']." and faub.userId=".$userId.";";
-                                        $userLikes;
-                                        $userDislikes;
-                                        $userResult = mysqli_query($conn, $userSql);
-                                        if(mysqli_num_rows($userResult) == 1){
-                                            while($userRow = mysqli_fetch_assoc($userResult)){
-                                                $userLikes = $userRow['likesArticle'];
-                                                $userDislikes = $userRow['dislikesArticle'];
+                                        if($userId != 0)
+                                        {
+                                            $userSql = "select * from forumarticle_userslikes_bridge faub where faub.articleId=".$row['id']." and faub.userId=".$userId.";";
+                                            $userLikes;
+                                            $userDislikes;
+                                            $userResult = mysqli_query($conn, $userSql);
+                                            if(mysqli_num_rows($userResult) == 1){
+                                                while($userRow = mysqli_fetch_assoc($userResult)){
+                                                    $userLikes = $userRow['likesArticle'];
+                                                    $userDislikes = $userRow['dislikesArticle'];
+                                                }
                                             }
                                         }
 
                                         echo '<div class="button-number">';
-                                            if(!$row['isClosed']){ //if the article is closed, just show the number of likes/dislikes
+                                            if(!$row['isClosed'] || $userId != 0){ //if the article is closed, just show the number of likes/dislikes
                                                 echo '<p>'.$row['numberLikes'].'</p>';
                                                 if(isset($userLikes)){ //if we have a row to work with, display like/liked accordingly. If not, just display "like".  
                                                     if($userLikes){ 
@@ -97,7 +128,7 @@
                                             }
                                         echo '</div>';
                                         echo '<div class="button-number">';
-                                            if(!$row['isClosed']){ 
+                                            if(!$row['isClosed'] || $userId != 0){ 
                                                 echo '<p>'.$row['numberDislikes'].'</p>';
                                                 if(isset($userDislikes)){
                                                     if($userDislikes){
@@ -133,7 +164,7 @@
                                     echo '</div>';
                                 }
                             echo '</div>';
-                        }else if ($power == "admin" || $power == "moderator"){ //if you happen to be a moderator or higher while the article is deleted... 
+                        }else if ($power == "admin" || $power == "moderator"){ //if you happen to be a moderator or higher while the article is deleted... display anyways
                             if($row['isClosed']){
                                 echo '<div class="forums-article closed">';
                             }else{

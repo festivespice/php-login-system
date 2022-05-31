@@ -4,7 +4,7 @@
 <div class="accountForm">
     <h1> Sign up </h1>
 
-    <form class="authentication" action="./includes/signup.inc.php" method="POST">
+    <form class="authentication" action="./includes/auth/signup.inc.php" method="POST">
         <?php
             if(isset($_GET['name'])){
                 echo '<input type="text" name="name" placeholder="Full name..." value="'.$_GET['name'].'">';

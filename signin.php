@@ -4,7 +4,7 @@
 <div class="accountForm">
     <h1>Log in</h1>
 
-    <form class="authentication" action="./includes/signin.inc.php" method="POST">
+    <form class="authentication" action="./includes/auth/signin.inc.php" method="POST">
     <?php
         if(isset($_GET['uid'])){
             echo '<input type="text" name="uid" placeholder="Username/Email..." value="'.$_GET['uid'].'">';

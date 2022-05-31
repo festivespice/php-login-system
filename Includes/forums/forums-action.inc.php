@@ -55,7 +55,8 @@ if(isset($_POST['submit-moderation'])){
         $moderationSql="insert into moderation (reason, moderationType, moderatorUserId, moderatedUserId, groupId) values (?, ?, ?, ?, ?);";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $moderationSql)){
-            //stmt error
+            header("Location: ../../forums.php?actionStmtError");
+            exit();
         }else {
             mysqli_stmt_bind_param($stmt, "sssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId);
             mysqli_stmt_execute($stmt);
@@ -84,7 +85,8 @@ if(isset($_POST['submit-moderation'])){
         $moderationSql="insert into moderation (reason, moderationType, moderatorUserId, moderatedUserId, groupId, articleId) values (?, ?, ?, ?, ?, ?);";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $moderationSql)){
-            //stmt error
+            header("Location: ../../forum-articles.php?actionStmtError&group-id=".$groupId."&group-name=".$groupName);
+            exit();
         }else {
             mysqli_stmt_bind_param($stmt, "ssssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId, $articleId);
             mysqli_stmt_execute($stmt);
@@ -114,7 +116,6 @@ if(isset($_POST['submit-moderation'])){
             mysqli_stmt_bind_param($stmt, "sssssss", $reason, $pageType, $moderatorId, $moderatedId, $groupId, $articleId, $itemId);
             mysqli_stmt_execute($stmt);
         }
-        header("Location: ../../forums.php");
-        exit();
+        echo "you haven't finished this in forums-action.inc.php yet";
     }
 }

@@ -1,6 +1,6 @@
 function userLikeDislike(groupId, groupName, articleId, userId, userOpinion){
     let = destinationURL = "forum-articles.php?group-id=" + groupId + "&group-name=" + groupName;
-    if(userId != "" && userId != null){ // if the user isn't logged in
+    if(userId != "" && userId != 0){ // if the user isn't logged in
         if(userOpinion == 'like' || userOpinion == 'dislike' || userOpinion == 'liked' || userOpinion == 'disliked'){
             let scrollY = $(document).scrollTop();
             destinationURL = "./includes/forums/forum-articles-interaction.inc.php?group-id=" + groupId + "&group-name=" + groupName + "&article-id=" + articleId + "&user-opinion=" + userOpinion + "&scroll-y=" + scrollY;

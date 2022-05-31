@@ -2,8 +2,8 @@
 
 if(isset($_POST['submit-post'])){
     session_start();
-    include_once './dbh.inc.php';
-    include_once './functions.inc.php';
+    include_once '../dbh.inc.php';
+    include_once '../functions.inc.php';
 
     $groupId = $_GET['group-id'];
     $groupName = $_GET['group-name'];
@@ -37,16 +37,16 @@ if(isset($_POST['submit-post'])){
         if(in_array($fileExtension, $allowedExtension)){
             if($fileSize <= 20971520){ //if less than 20MB
                 $fullFileName = $inputFilename.".".uniqid("", true).".".$fileExtension;
-                $fileDestination = "../image/forum-articles/".$fullFileName;
+                $fileDestination = "../../image/forum-articles/".$fullFileName;
                 if(empty($inputArticleTitle)){ //only the file title should not be null
-                    header("Location: ../forum-articles.php?error=emptyInput&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+                    header("Location: ../../forum-articles.php?error=emptyInput&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
                     exit();
                 }else {
                     //validation complete
                     $sql = "select * from forumarticle fa where fa.forumGroupId=".$groupId.";";
                     $stmt = mysqli_stmt_init($conn);
                     if(!mysqli_stmt_prepare($stmt, $sql)){
-                        header("Location: ../forum-articles.php?error=stmtError&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+                        header("Location: ../../forum-articles.php?error=stmtError&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
                         exit();
                     }else{
                         mysqli_stmt_execute($stmt);
@@ -56,7 +56,7 @@ if(isset($_POST['submit-post'])){
 
                         $sql = "insert into forumarticle (title, description, imageFullName, orderNumber, userId, forumGroupId, numberComments) values (?, ?, ?, ?, ?, ?, ?);";
                         if(!mysqli_stmt_prepare($stmt, $sql)){
-                            header("Location: ../forum-articles.php?error=secondStmtError&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+                            header("Location: ../../forum-articles.php?error=secondStmtError&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
                             exit();
                         } else {
                             $numberComments = 0;
@@ -64,31 +64,31 @@ if(isset($_POST['submit-post'])){
                             mysqli_stmt_execute($stmt); //successfully inserted article... update number of articles
                             $sql = "update forumgroup fg set fg.numberArticles=fg.numberArticles+1 where fg.id=".$groupId.";";
                             if(!mysqli_stmt_prepare($stmt, $sql)){
-                                header("Location: ../forum-articles.php?error=thirdStmtError&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+                                header("Location: ../../forum-articles.php?error=thirdStmtError&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
                                 exit();
                             }else{ //no errors, execute and upload file
                                 mysqli_stmt_execute($stmt);
                                 mysqli_stmt_close($stmt);
                                 move_uploaded_file($fileTempName, $fileDestination);
-                                header("Location: ../forum-articles.php?success&group-id=".$groupId."&group-name=".$groupName);
+                                header("Location: ../../forum-articles.php?success&group-id=".$groupId."&group-name=".$groupName);
                                 exit();
                             }
                         }
                     }
                 }
             }else {
-                header("Location: ../forum-articles.php?error=exceedsFileSize&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+                header("Location: ../../forum-articles.php?error=exceedsFileSize&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
                 exit();
             }
         }else {
-            header("Location: ../forum-articles.php?error=improperExtension&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+            header("Location: ../../forum-articles.php?error=improperExtension&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
             exit();  
         }
     } else {
-        header("Location: ../forum-articles.php?error=errorUploading&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
+        header("Location: ../../forum-articles.php?error=errorUploading&filename=".$inputFilename."&forumtitle=".$inputArticleTitle."&forumdesc=".$inputArticleDesc."&group-id=".$groupId."&group-name=".$groupName);
         exit();
     }
 } else {
-    header("Location: ../forum-articles.php?group-id=".$groupId."&group-name=".$groupName);
+    header("Location: ../../forum-articles.php?group-id=".$groupId."&group-name=".$groupName);
     exit();
 }  

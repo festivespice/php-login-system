@@ -3,11 +3,25 @@ session_start();
 include_once '../dbh.inc.php';
 include_once '../functions.inc.php';
 
-if(!isset($_GET['group-id']) || !isset($_GET['user-id'])){
-    header("Location: forums.php");
+if(!isset($_GET['group-id'])){
+    header("Location: ../../forums?.php?error=noGroupId");
+} else if (!isset($_GET['user-id'])) {
+    header("Location: ../../forums.php?error=userNotLoggedIn");
 } else {
-    //first, check the bridge table to see if the user has already favorited. (if a row exists)
+    //first, check if the article is deleted or closed... If not, then the user can interact.
     $groupId = $_GET['group-id'];
+    $sql = "select * from forumgroup fg where fg.id = ".$groupId.";";
+    $result = mysqli_query($conn, $sql);
+    if(mysqli_num_rows($result) == 1){
+        while($row = mysqli_fetch_assoc($result)){
+            if($row['isClosed'] == 1 || $row['isDeleted'] == 1){ 
+                header("Location: ../../forums.php?deletedOrClosed");
+                exit();
+            }
+        }
+    }
+
+    //after this, check the bridge table to see if the user has already favorited. (if a row exists)
     $userId = $_GET['user-id'];
     $scrollY = $_GET['scrollY'];
     $sql = "select * from forumgroup_userfavorites_bridge fubr where fubr.forumGroupId='$groupId' and fubr.userId='$userId';";

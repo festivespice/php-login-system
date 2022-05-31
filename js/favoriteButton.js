@@ -22,7 +22,7 @@ function favoriteGroup(groupId, userId){
     console.log(groupId);
     console.log(userId);
     let y = $(document).scrollTop();
-    let destinationURL = "./Includes/forums/forumsFavorite.inc.php?group-id=" + groupId +"&user-id=" + userId + "&scrollY=" + y;
+    let destinationURL = "./Includes/forums/forum-group-favorite.inc.php?group-id=" + groupId +"&user-id=" + userId + "&scrollY=" + y;
     window.location.href = destinationURL; 
 }
 
