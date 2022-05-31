@@ -1,9 +1,22 @@
-function userLikeDislike(groupId, groupName, articleId, userId, userOpinion){
+function userLikeDislikeArticle(groupId, groupName, articleId, userId, userOpinion){ //a name is not needed
     let = destinationURL = "forum-articles.php?group-id=" + groupId + "&group-name=" + groupName;
     if(userId != "" && userId != 0){ // if the user isn't logged in
         if(userOpinion == 'like' || userOpinion == 'dislike' || userOpinion == 'liked' || userOpinion == 'disliked'){
             let scrollY = $(document).scrollTop();
             destinationURL = "./includes/forums/forum-articles-interaction.inc.php?group-id=" + groupId + "&group-name=" + groupName + "&article-id=" + articleId + "&user-opinion=" + userOpinion + "&scroll-y=" + scrollY;
+        } 
+    } else { //if the user hasn't logged in, make them aware. 
+        let = destinationURL = "forum-articles.php?error=not-logged-in&group-id=" + groupId + "&group-name=" + groupName;
+    }
+    window.location.href = destinationURL; 
+}
+
+function userLikeDislikeItem(groupId, groupName, articleId, articleName, itemId, userId, userOpinion){ //a name is needed for the url of an article.
+    let = destinationURL = "forum-articles.php?group-id=" + groupId + "&group-name=" + groupName;
+    if(userId != "" && userId != 0){ // if the user isn't logged in
+        if(userOpinion == 'like' || userOpinion == 'dislike' || userOpinion == 'liked' || userOpinion == 'disliked'){
+            let scrollY = $(document).scrollTop();
+            destinationURL = "./includes/forums/forum-items-interaction.inc.php?group-id=" + groupId + "&group-name=" + groupName + "&article-id=" + articleId + "&item-id=" + itemId + "&user-opinion=" + userOpinion + "&scroll-y=" + scrollY;
         } 
     } else { //if the user hasn't logged in, make them aware. 
         let = destinationURL = "forum-articles.php?error=not-logged-in&group-id=" + groupId + "&group-name=" + groupName;

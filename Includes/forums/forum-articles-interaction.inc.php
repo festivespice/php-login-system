@@ -4,6 +4,7 @@ session_start();
 include_once '../dbh.inc.php';
 $groupId = $_GET['group-id'];
 $articleId = $_GET['article-id'];
+$scrollY = $_GET['scroll-y'];
 
 //first, check if either the group or the article are closed or deleted.
 $sql = "select * from forumgroup fg where fg.id = ".$groupId.";";
@@ -29,7 +30,6 @@ if(mysqli_num_rows($result) == 1){
 
 $groupName = $_GET['group-name'];
 $userOpinion = $_GET['user-opinion'];
-$scrollY = $_GET['scroll-y'];
 $userId = $_SESSION['userId'];
 
 //a user cannot both like and dislike an article. They can only do one at a time. 

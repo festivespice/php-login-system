@@ -93,7 +93,7 @@
                                         echo "<p>This shouldn't be happening.</p>";
                                     }
                                     //for each article, create a username/profile picture box.
-                                    echo '<div class="header-profile-box"><p class="profile-text">'.$userName.'</p><img class="profile-img" src="'. $profileImageUrl.'?'.mt_rand().'"></div>'; 
+                                    echo '<div class="profile-header-box"><p class="profile-text">'.$userName.'</p><img class="profile-img" src="'. $profileImageUrl.'?'.mt_rand().'"></div>'; 
 
                                     //for each article, show the number of likes/dislikes and comments. Also, provide the ability to do these things. 
                                     echo '<div>';
@@ -116,12 +116,12 @@
                                                 echo '<p>'.$row['numberLikes'].'</p>';
                                                 if(isset($userLikes)){ //if we have a row to work with, display like/liked accordingly. If not, just display "like".  
                                                     if($userLikes){ 
-                                                        echo '<button id="liked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Liked</button>';
+                                                        echo '<button id="liked" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Liked</button>';
                                                     }else{
-                                                        echo '<button id="like" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
+                                                        echo '<button id="like" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
                                                     }
                                                 }else{
-                                                    echo '<button id="like" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
+                                                    echo '<button id="like" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
                                                 }
                                             } else {
                                                 echo '<p class="article-button">Likes: '.$row['numberLikes'].'</p>';
@@ -132,12 +132,12 @@
                                                 echo '<p>'.$row['numberDislikes'].'</p>';
                                                 if(isset($userDislikes)){
                                                     if($userDislikes){
-                                                        echo '<button id="disliked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Disliked</button>';
+                                                        echo '<button id="disliked" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Disliked</button>';
                                                     }else{
-                                                        echo '<button id="dislike" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
+                                                        echo '<button id="dislike" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
                                                     }
                                                 }else{
-                                                    echo '<button id="dislike" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
+                                                    echo '<button id="dislike" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
                                                 }
                                             }else{
                                                 echo '<p class="article-button">Dislikes: '.$row['numberDislikes'].'</p>';
@@ -198,12 +198,12 @@
                                                 echo '<p>'.$row['numberLikes'].'</p>';
                                                 if(isset($userLikes)){ //if we have a row to work with, display like/liked accordingly. If not, just display "like".  
                                                     if($userLikes){ 
-                                                        echo '<button id="liked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Liked</button>';
+                                                        echo '<button id="liked" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Liked</button>';
                                                     }else{
-                                                        echo '<button id="like" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
+                                                        echo '<button id="like" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
                                                     }
                                                 }else{
-                                                    echo '<button id="like" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
+                                                    echo '<button id="like" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
                                                 }
                                             } else {
                                                 echo '<p>Likes: '.$row['numberLikes'].'</p>';
@@ -214,12 +214,12 @@
                                                 if(isset($userDislikes)){
                                                     echo '<p>'.$row['numberDislikes'].'</p>';
                                                     if($userDislikes){
-                                                        echo '<button id="disliked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Disliked</button>';
+                                                        echo '<button id="disliked" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Disliked</button>';
                                                     }else{
-                                                        echo '<button id="dislike" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
+                                                        echo '<button id="dislike" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
                                                     }
                                                 }else{
-                                                    echo '<button id="dislike" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
+                                                    echo '<button id="dislike" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
                                                 }
                                             }else{
                                                 echo '<p>Dislikes: '.$row['numberDislikes'].'</p>';

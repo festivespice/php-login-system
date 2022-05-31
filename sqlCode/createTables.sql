@@ -1,18 +1,21 @@
-create table if not exists powerUser (
-    id int(11) not null PRIMARY KEY AUTO_INCREMENT,
-    admin boolean not null,
-    moderator boolean not null, 
-    userId int(11) not null,
-    CONSTRAINT `fk_powerUser_users`
-        FOREIGN KEY (userId) REFERENCES users (id)
-);
 
 create table if not exists users (
     id int(11) not null PRIMARY KEY AUTO_INCREMENT,
     name varchar(128) not null, 
     email varchar(128) not null,
     uid varchar(128) not null,
-    password varchar(128) not null
+    password varchar(128) not null,
+    dateCreated datetime not null
+);
+
+create table if not exists powerUser (
+    id int(11) not null PRIMARY KEY AUTO_INCREMENT,
+    admin boolean not null,
+    moderator boolean not null, 
+    userId int(11) not null,
+    dateCreated datetime not null,
+    CONSTRAINT `fk_powerUser_users`
+        FOREIGN KEY (userId) REFERENCES users (id)
 );
 
 --one user can have one profile
@@ -43,6 +46,7 @@ create table if not exists galleryItem (
     imageFullName longtext not null,
     orderNumber longtext not null, 
     userId int(11) not null,
+    dateCreated datetime not null,
     CONSTRAINT `fk_galleryItem_users`
         FOREIGN KEY (userId) REFERENCES users (id)
 );
@@ -58,7 +62,7 @@ create table if not exists forumGroup(
     numberFavorites int(11) not null,
     isClosed boolean not null default false,
     isDeleted boolean not null default false,
-
+    dateCreated datetime not null,
     description varchar(1024),
     imageFullName longtext,
     CONSTRAINT `fk_forumGroup_users`
@@ -78,6 +82,7 @@ create table if not exists forumArticle(
     numberLikes int(11) not null default 0,
     isClosed boolean not null default false, 
     isDeleted boolean not null default false,
+    dateCreated datetime not null,
     title varchar(128),
     description varchar(1024),
     imageFullName longtext,
@@ -87,9 +92,9 @@ create table if not exists forumArticle(
 );
 
 
---one item can have one user
---many items can have one article
---individual posts made by users
+--items are a one-to-many relationship:
+-- one article can have many items. 
+-- many items can have one article.
 create table if not exists forumItem(
     id int(11) PRIMARY KEY AUTO_INCREMENT not null,
     orderNumber longtext not null, 
@@ -98,7 +103,9 @@ create table if not exists forumItem(
     numberDislikes int(11) not null default 0,
     numberLikes int(11) not null default 0,
     isDeleted boolean not null default false,
-    text varchar(4096),
+    isPinned boolean not null default false,
+    text varchar(4096) not null,
+    dateCreated datetime not null,
     imageFullName longtext,
     CONSTRAINT `fk_forumGroup_users_forumArticle`
         FOREIGN KEY (userId) REFERENCES users (id),
@@ -112,6 +119,7 @@ create table if not exists moderation(
     moderatorUserId int(11) not null,
     moderatedUserId int(11) not null,
     groupId int(11) not null,
+    dateCreated datetime not null,
     articleId int(11),
     itemId int(11),
     CONSTRAINT `fk_users_group_article_item`
@@ -125,8 +133,8 @@ create table if not exists moderation(
 create table if not exists forumArticle_usersLikes_bridge(
     articleId int(11) not null,
     userId int(11) not null,
-    likesArticle boolean,
-    dislikesArticle boolean,
+    likesArticle boolean not null default false,
+    dislikesArticle boolean not null default false,
     PRIMARY KEY (articleId, userId),
     CONSTRAINT `fk_forumArticles_userLikes_bridge`
         FOREIGN KEY (articleId) REFERENCES forumArticle(id),
@@ -142,3 +150,14 @@ create table if not exists forumGroup_userFavorites_bridge(
         FOREIGN KEY (userId) REFERENCES users (id)
 );
 
+
+create table if not exists forumItem_usersLikes_bridge(
+    itemId int(11) not null,
+    userId int(11) not null, 
+    likesArticle boolean not null default false,
+    dislikesArticle boolean not null default false,
+    PRIMARY KEY (itemId, userId),
+    CONSTRAINT `fk_forumItem_usersLikes_bridge`
+        FOREIGN KEY (itemId) REFERENCES forumItem (id),
+        FOREIGN KEY (userId) REFERENCES users (id)
+);
