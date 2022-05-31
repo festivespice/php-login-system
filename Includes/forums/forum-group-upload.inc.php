@@ -2,8 +2,8 @@
 
 if(isset($_POST['submit-post'])){
     session_start();
-    include_once './dbh.inc.php';
-    include_once './functions.inc.php';
+    include_once '../dbh.inc.php';
+    include_once '../functions.inc.php';
 
     $id = $_SESSION['userId'];
     $inputFilename = $_POST['filename'];
@@ -31,16 +31,16 @@ if(isset($_POST['submit-post'])){
         if(in_array($fileExtension, $allowedExtension)){
             if($fileSize <= 20971520){ //if less than 20MB
                 $fullFileName = $inputFilename.".".uniqid("", true).".".$fileExtension;
-                $fileDestination = "../image/forum-groups/".$fullFileName;
+                $fileDestination = "../../image/forum-groups/".$fullFileName;
                 if(empty($inputForumtitle)){ //only the file title should not be null
-                    header("Location: ../forums.php?error=emptyInput&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+                    header("Location: ../../forums.php?error=emptyInput&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
                     exit();
                 }else {
                     //validation complete
                     $sql = "select * from forumgroup;";
                     $stmt = mysqli_stmt_init($conn);
                     if(!mysqli_stmt_prepare($stmt, $sql)){
-                        header("Location: ../forums.php?error=stmtError&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+                        header("Location: ../../forums.php?error=stmtError&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
                         exit();
                     }else{
                         mysqli_stmt_execute($stmt);
@@ -50,7 +50,7 @@ if(isset($_POST['submit-post'])){
 
                         $sql = "insert into forumgroup (title, description, imageFullName, orderNumber, userId, numberArticles) values (?, ?, ?, ?, ?, ?);";
                         if(!mysqli_stmt_prepare($stmt, $sql)){
-                            header("Location: ../forums.php?error=secondStmtError&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+                            header("Location: ../../forums.php?error=secondStmtError&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
                             exit();
                         } else {
                             $numberArticles = 0;
@@ -59,24 +59,24 @@ if(isset($_POST['submit-post'])){
                             mysqli_stmt_close($stmt);
 
                             move_uploaded_file($fileTempName, $fileDestination);
-                            header("Location: ../forums.php?success");
+                            header("Location: ../../forums.php?success");
                             exit();
                         }
                     }
                 }
             }else {
-                header("Location: ../forums.php?error=exceedsFileSize&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+                header("Location: ../../forums.php?error=exceedsFileSize&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
                 exit();
             }
         }else {
-            header("Location: ../forums.php?error=improperExtension&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+            header("Location: ../../forums.php?error=improperExtension&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
             exit();  
         }
     } else {
-        header("Location: ../forums.php?error=errorUploading&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
+        header("Location: ../../forums.php?error=errorUploading&filename=".$inputFilename."&forumtitle=".$inputForumtitle."&forumdesc=".$inputForumdesc);
         exit();
     }
 } else {
-    header("Location: ../forums.php");
+    header("Location: ../../forums.php");
     exit();
 }  

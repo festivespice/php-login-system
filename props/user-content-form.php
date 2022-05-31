@@ -1,5 +1,5 @@
 <?php
-echo '<form class="user-content-form" action="./includes/forum-article-upload.inc.php?group-id='.$_GET['group-id'].'&group-name='.$_GET['group-name'].'" method="POST" enctype="multipart/form-data">';
+echo '<form class="user-content-form" action="./includes/forums/forum-article-upload.inc.php?group-id='.$_GET['group-id'].'&group-name='.$_GET['group-name'].'" method="POST" enctype="multipart/form-data">';
 if(isset($_GET['filename'])){
     echo '<input type="text" name="filename" placeholder="File name..." value="'.$_GET['filename'].'">';
 } else {

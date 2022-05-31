@@ -1,4 +1,5 @@
 <?php
+    //Most of these functions are used in the folders from the includes directory, so there's an extra '..'
     //return true if the input was empty for one of the attributes
     function emptyInputSignup($name, $email, $uid, $password, $passwordre){
         $result;
@@ -51,7 +52,7 @@
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){ //does it fail?
             //there is an error,
-            header("location: ../signup.php?error=stmtfailed&name=$name&email=$email&uid=$uid");
+            header("location: ../../signup.php?error=stmtfailed&name=$name&email=$email&uid=$uid");
             exit(); 
         } else { //did not fail
             mysqli_stmt_bind_param($stmt, "ss", $uid, $email); //two strings, and then these two strings
@@ -75,7 +76,7 @@
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){ //does it fail?
             //there is an error,
-            header("location: ../signup.php?error=stmtfailed&name=$name&email=$email&uid=$uid");
+            header("location: ../../signup.php?error=stmtfailed&name=$name&email=$email&uid=$uid");
             exit(); 
         } else { //did not fail
 
@@ -93,7 +94,7 @@
                 $sql = "insert into profile (bioName, userId) values (?, ?);";
 
                 if(!mysqli_stmt_prepare($stmt, $sql)){
-                    header("location: ../signup.php?error=stmt2failed&name=$name&email=$email&uid=$uid");
+                    header("location: ../../signup.php?error=stmt2failed&name=$name&email=$email&uid=$uid");
                     exit();
                 }else{
                     mysqli_stmt_bind_param($stmt, "ss", $name, $id);
@@ -102,7 +103,7 @@
             }
 
             mysqli_stmt_close($stmt);
-            header("location: ../signup.php?error=none");
+            header("location: ../../signup.php?error=none");
             exit(); 
         }
     }
@@ -122,7 +123,7 @@
         $uidExists = uidExists($conn, $uid, $uid, "");
 
         if($uidExists === false){
-            header("location: ../signin.php?error=wronglogin");
+            header("location: ../../signin.php?error=wronglogin");
             exit();
         }
         
@@ -133,7 +134,7 @@
         $checkPassword = password_verify($password, $hashedPassword);
         
         if($checkPassword == false) { //the password was incorrect. Don't tell the user that the password specifically was incorrect.
-            header("location: ../signin.php?error=wronglogin");
+            header("location: ../../signin.php?error=wronglogin");
             exit();
         } else if ($checkPassword === true){
             session_start();
@@ -141,7 +142,7 @@
             $_SESSION["userId"] = $uidExists["id"]; //the id of the row returned from 'uidExists()'
             $_SESSION["userUid"] = $uidExists["uid"]; //the uid of the row returned from 'uidExists()'
             $_SESSION["userName"] = $uidExists["name"];
-            header("location: ../index.php?error=none");
+            header("location: ../../index.php?error=none");
             exit();
         }
     }

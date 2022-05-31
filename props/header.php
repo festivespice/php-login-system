@@ -1,8 +1,5 @@
 <?php
-    //used to stop stuff like CSS from being cached.
-    header("Expires: Tue, 03 Jul 2001 06:00:00 GMT"); 
     session_start(); //on every page of the website, a session will be started so that session variables can be accessed. 
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,10 +24,10 @@
 
                     if(isset($_SESSION['userUid'])){ //there is currently a logged in user
                         //if the user is logged in, query whether they have a picture. If they do, then try to create its pathname and use it.
-                        include_once './includes/profileimg.inc.php';
+                        include_once './includes/profile/profileimg.inc.php';
 
-                        echo '<a id="signup" href="./Includes/logout.inc.php">Logout</a>';
-                        echo '<div class="header-profile-box"><a id="profile" href="profile.php" class="profile-tab"><p class="profile-text">'.$_SESSION['userUid'].'</p><img class="profile-img" src="'.$imagePath.'?'.mt_rand().'"></a></div>';
+                        echo '<a id="signup" href="./Includes/auth/logout.inc.php">Logout</a>';
+                        echo '<div class="header-profile-box"><a id="profile" href="profile.php?user='.$_SESSION['userId'].'" class="profile-tab"><p class="profile-text">'.$_SESSION['userUid'].'</p><img class="profile-img" src="'.$imagePath.'?'.mt_rand().'"></a></div>';
                     } else  {
                         echo '<a id="signin" href="signin.php">Log In</a>';
                         echo '<a id="signup" href="signup.php">Sign Up</a>';

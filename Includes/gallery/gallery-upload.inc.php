@@ -2,8 +2,8 @@
 
 if(isset($_POST['submit-post'])){
     session_start();
-    include_once './dbh.inc.php';
-    include_once './functions.inc.php';
+    include_once '../dbh.inc.php';
+    include_once '../functions.inc.php';
 
     $id = $_SESSION['userId'];
     $inputFilename = $_POST['filename'];
@@ -34,12 +34,12 @@ if(isset($_POST['submit-post'])){
             if($fileSize <= 20971520){ //if less than 20MB
                 //all file validation checks are done! add post data to database, add file to filesystem.
                 $fullFileName = $inputFilename.".".uniqid("", true).".".$fileExtension;
-                $fileDestination = "../image/gallery/".$fullFileName;
+                $fileDestination = "../../image/gallery/".$fullFileName;
                   //always try to save data to a database before saving additional data to a server.
 
                 //now that file validations are done, do form text input validation
                 if(empty($inputFiletitle) || empty($inputFiledesc)){
-                    header("Location: ../discover.php?error=emptyInput&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+                    header("Location: ../../discover.php?error=emptyInput&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                     exit();
                 } else {
                     //validation complete
@@ -47,7 +47,7 @@ if(isset($_POST['submit-post'])){
                     //we're using user input, so we need to use a prepared statement.
                     $stmt = mysqli_stmt_init($conn);
                     if(!mysqli_stmt_prepare($stmt, $sql)){
-                        header("Location: ../discover.php?error=stmtError&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+                        header("Location: ../../discover.php?error=stmtError&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                         exit();
                     }else {
                         mysqli_stmt_execute($stmt);
@@ -58,7 +58,7 @@ if(isset($_POST['submit-post'])){
                         $sql = "insert into galleryitem (title, description, imageFullName, orderNumber, userId) values (?, ?, ?, ?, ? );";
                         //you can use an initialized statement with a different SQL input
                         if(!mysqli_stmt_prepare($stmt, $sql)) {
-                            header("Location: ../discover.php?error=secondStmtError&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+                            header("Location: ../../discover.php?error=secondStmtError&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                             exit();
                         }else {
                             mysqli_stmt_bind_param($stmt, "sssss", $inputFiletitle, $inputFiledesc, $fullFileName, $setImageOrder, $id);
@@ -68,24 +68,24 @@ if(isset($_POST['submit-post'])){
                             //now we can upload the file: the database was updated
                             move_uploaded_file($fileTempName, $fileDestination);
 
-                            header("Location: ../discover.php?success");
+                            header("Location: ../../discover.php?success");
                             exit();
                         }
                     }
                 }
             } else {
-                header("Location: ../discover.php?error=exceedsFileSize&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+                header("Location: ../../discover.php?error=exceedsFileSize&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
                 exit();
             }
         } else {
-            header("Location: ../discover.php?error=improperExtension&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+            header("Location: ../../discover.php?error=improperExtension&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
             exit();
         }
     } else {
-        header("Location: ../discover.php?error=errorUploading&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
+        header("Location: ../../discover.php?error=errorUploading&filename=".$inputFilename."&filetitle=".$inputFiletitle."&filedesc=".$inputFiledesc);
         exit();
     }  
 } else {
-    header("Location: ../discover.php");
+    header("Location: ../../discover.php");
     exit();
 }

@@ -5,9 +5,9 @@ if($numRows >= 1){
         if($row['admin']){
             if($formType=="gallery")
             {
-                echo '<form class="admin-content-form" action="./includes/gallery-upload.inc.php" method="POST" enctype="multipart/form-data">';
+                echo '<form class="admin-content-form" action="./includes/gallery/gallery-upload.inc.php" method="POST" enctype="multipart/form-data">';
             }else if ($formType=="forum-group"){
-                echo '<form class="admin-content-form" action="./includes/forum-group-upload.inc.php" method="POST" enctype="multipart/form-data">';
+                echo '<form class="admin-content-form" action="./includes/forums/forum-group-upload.inc.php" method="POST" enctype="multipart/form-data">';
             }
 
             if(isset($_GET['filename'])){

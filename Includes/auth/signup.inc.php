@@ -9,30 +9,30 @@
         $password = $_POST['password'];
         $passwordre = $_POST['passwordre'];
 
-        require_once 'dbh.inc.php';
-        require_once 'functions.inc.php';
+        require_once '../dbh.inc.php';
+        require_once '../functions.inc.php';
 
         //error handlers. the order sort of matters: you'd want users to know that something was empty before anything else.
         //Also, try to capture errors in a chronological way: if the name is the first input field, start from there.
         //However, leave functions that require a lot of processing power last. 
         if(emptyInputSignup($name, $email, $uid, $password, $passwordre) !== false){
-            header("location: ../signup.php?error=emptyinput");
+            header("location: ../../signup.php?error=emptyinput");
             exit(); //stops the script from running
         }
         if(invalidEmail($email) !== false){
-            header("location: ../signup.php?error=invalidemail&name=$name&uid=$uid");
+            header("location: ../../signup.php?error=invalidemail&name=$name&uid=$uid");
             exit(); 
         }
         if(invalidUid($uid) !== false){
-            header("location: ../signup.php?error=invaliduid&name=$name&email=$email");
+            header("location: ../../signup.php?error=invaliduid&name=$name&email=$email");
             exit(); 
         }
         if(passwordMatch($password, $passwordre) !== false){
-            header("location: ../signup.php?error=passwordsdontmatch&name=$name&email=$email&uid=$uid");
+            header("location: ../../signup.php?error=passwordsdontmatch&name=$name&email=$email&uid=$uid");
             exit(); 
         }
         if(uidExists($conn, $uid, $email, $name) !== false){ //we actually need the database connection to check this
-            header("location: ../signup.php?error=usernameoremailtaken&name=$name&email=$email");
+            header("location: ../../signup.php?error=usernameoremailtaken&name=$name&email=$email");
             exit(); 
         }
 
@@ -40,7 +40,7 @@
         createUser($conn, $name, $email, $uid, $password);
         exit();
     } else {
-        header("location: ../signup.php");
+        header("location: ../../signup.php");
         exit(); 
     }
 
