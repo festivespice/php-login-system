@@ -97,20 +97,26 @@ create table if not exists forumArticle(
 -- many items can have one article.
 create table if not exists forumItem(
     id int(11) PRIMARY KEY AUTO_INCREMENT not null,
-    orderNumber longtext not null, 
     userId int(11) not null,
     forumArticleId int(11) not null,
+    orderNumber longtext not null, 
     numberDislikes int(11) not null default 0,
     numberLikes int(11) not null default 0,
+    numberComments int(11) not null default 0,
     isDeleted boolean not null default false,
     isPinned boolean not null default false,
     text varchar(4096) not null,
-    dateCreated datetime not null,
+    dateCreated int(11) not null,
+    replyItemId int(11), 
     imageFullName longtext,
     CONSTRAINT `fk_forumGroup_users_forumArticle`
         FOREIGN KEY (userId) REFERENCES users (id),
         FOREIGN KEY (forumArticleId) REFERENCES forumArticle (id)
 );
+alter table forumItem
+drop column dateCreated;
+alter table forumItem 
+add column dateCreated int(11) not null;
 
 create table if not exists moderation(
     id int(11) PRIMARY KEY AUTO_INCREMENT not null,

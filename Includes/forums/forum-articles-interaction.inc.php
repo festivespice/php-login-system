@@ -4,7 +4,9 @@ session_start();
 include_once '../dbh.inc.php';
 $groupId = $_GET['group-id'];
 $articleId = $_GET['article-id'];
+$articleName = $_GET['article-name'];
 $scrollY = $_GET['scroll-y'];
+$source = $_GET['source']; //if someone clicks on the buttons from the article page instead of the articles page, we have to redirect them appropriately.
 
 //first, check if either the group or the article are closed or deleted.
 $sql = "select * from forumgroup fg where fg.id = ".$groupId.";";
@@ -22,8 +24,13 @@ $result = mysqli_query($conn, $sql);
 if(mysqli_num_rows($result) == 1){
     while($row = mysqli_fetch_assoc($result)){
         if($row['isClosed'] == 1 || $row['isDeleted'] == 1){ 
-            header("Location: ../../forum-articles.php?deletedOrClosedArticle&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
-            exit();
+            if($source == "group"){
+                header("Location: ../../forum-articles.php?deletedOrClosedArticle&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
+                exit();
+            }else if($source == "article"){
+                header("Location: ../../forum-article.php?deletedOrClosedArticle&group-id=".$groupId."&group-name=".$groupName."&article-id=".$articleId."&article-name=".$articleName."&scrollY=".$scrollY);
+                exit();
+            }
         }
     }
 }
@@ -83,12 +90,19 @@ if(isset($bridgeSql)){
     //execute the bridgeSql first.
     $bridgeResult = mysqli_query($conn, $bridgeSql);
     $articleResult = mysqli_query($conn, $articleSql);
-    header("Location: ../../forum-articles.php?interactionSuccess&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
-    exit();
+    if($source == "group"){
+        header("Location: ../../forum-articles.php?interactionSuccess&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
+        exit();
+    } else if($source == "article"){
+        header("Location: ../../forum-article.php?interactionSuccess&group-id=".$groupId."&group-name=".$groupName."&article-id=".$articleId."&article-name=".$articleName."&scrollY=".$scrollY);
+        exit();
+    }
 }else{
-    header("Location: ../../forum-articles.php?interactionError&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
-    exit();
+    if($source == "group"){
+        header("Location: ../../forum-articles.php?interactionError&group-id=".$groupId."&group-name=".$groupName."&scrollY=".$scrollY);
+        exit();
+    } else if($source == "article"){
+        header("Location: ../../forum-article.php?interactionError&group-id=".$groupId."&group-name=".$groupName."&article-id=".$articleId."&article-name=".$articleName."&scrollY=".$scrollY);
+        exit();
+    }
 }
-echo $bridgeSql;
-echo "<br>";
-echo $articleSql;

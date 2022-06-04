@@ -8,10 +8,6 @@ body {
 }
 
 body {
-    /* previous background 
-    background-color: #EED6D3;
-    background-image: -webkit-linear-gradient(65deg, #E8B4B8 50%, #EED6D3 50%);
-    */
     font-family: 'Kanit', sans-serif;
     font-weight: 400; 
 
@@ -215,6 +211,18 @@ p.success {
     flex-wrap: nowrap;
 }
 
+.items-supergroup{
+    border: none;
+    border-left: 2px solid;
+    height: 85%;
+    padding: 20px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+
 .forums-group {
     display: inline-flex;
     align-items: center;
@@ -244,8 +252,7 @@ p.success {
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    width: 60%;
-    min-width: 300px;
+    flex-wrap: wrap;
 }
 
 .article-button{
@@ -466,6 +473,41 @@ p.success {
 
 .closed{
     background-color: gray;
+}
+
+.item-comment-image{
+    width: 150px;
+    height: 150px;
+    background-color: green;
+    margin-right: 20px;
+}
+
+.item-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.item-body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.item-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.item-interaction{
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.hidden{
+    display: none;
 }
 
 .text-settings input {

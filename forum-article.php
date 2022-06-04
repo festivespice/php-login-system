@@ -17,14 +17,15 @@
     //Deleted items will be marked in the database as deleted and will simply display deleted post in both the post's body and username.
 ?>
     <div class="currentPage">
-        <div class="article-header">
         <?php
+        echo '<div class="article-header">';
             $power = "";
             $groupName = $_GET['group-name'];
             $groupId = $_GET['group-id'];
             $articleId = $_GET['article-id'];
             $articleName = $_GET['article-name'];
             $userId = 0;
+            $isClosed = true;
             
             if(isset($_SESSION['userId'])){
                 $userId = $_SESSION['userId'];
@@ -46,6 +47,7 @@
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) >= 1){
                 while($row = mysqli_fetch_assoc($result)){
+                    $isClosed = $row['isClosed'];
                     if(!$row['isDeleted']){
                         if($row['isClosed']){
                             echo '<div class="forums-article-item closed">';
@@ -53,7 +55,9 @@
                             echo '<div class="forums-article-item">';
                         }
                             if(!empty($row['imageFullName'])){
-                                echo '<div style="background-image: url(\'./image/forum-articles/'.$row['imageFullName'].'\');" class="item-image"></div>';
+                                echo '<div>';
+                                    echo '<div style="background-image: url(\'./image/forum-articles/'.$row['imageFullName'].'\');" class="item-image"></div>';
+                                echo '</div>';
                             }
                             echo "<div class='article-item-text-container'>";
                                 echo "<div class='article-item-text'>";
@@ -100,12 +104,12 @@
                                             echo '<p>'.$row['numberLikes'].'</p>';
                                             if(isset($userLikes)){ //if we have a row to work with, display like/liked accordingly. If not, just display "like".  
                                                 if($userLikes){ 
-                                                    echo '<button id="liked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Liked</button>';
+                                                    echo '<button id="liked" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', \''.$articleName.'\', '.$userId.', this.id, \'article\')">Liked</button>';
                                                 }else{
-                                                    echo '<button id="like" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
+                                                    echo '<button id="like" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', \''.$articleName.'\', '.$userId.', this.id, \'article\')">Like</button>';
                                                 }
                                             }else{
-                                                echo '<button id="like" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Like</button>';
+                                                echo '<button id="like" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', \''.$articleName.'\', '.$userId.', this.id, \'article\')">Like</button>';
                                             }
                                         } else {
                                             echo '<p class="article-button">Likes: '.$row['numberLikes'].'</p>';
@@ -116,18 +120,21 @@
                                             echo '<p>'.$row['numberDislikes'].'</p>';
                                             if(isset($userDislikes)){
                                                 if($userDislikes){
-                                                    echo '<button id="disliked" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Disliked</button>';
+                                                    echo '<button id="disliked" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', \''.$articleName.'\', '.$userId.', this.id, \'article\')">Disliked</button>';
                                                 }else{
-                                                    echo '<button id="dislike" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
+                                                    echo '<button id="dislike" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', \''.$articleName.'\', '.$userId.', this.id, \'article\')">Dislike</button>';
                                                 }
                                             }else{
-                                                echo '<button id="dislike" class="article-button" onclick="userLikeDislike('.$groupId.', \''.$groupName.'\', '.$row['id'].', '.$userId.', this.id)">Dislike</button>';
+                                                echo '<button id="dislike" class="article-button" onclick="userLikeDislikeArticle('.$groupId.', \''.$groupName.'\', '.$row['id'].', \''.$articleName.'\', '.$userId.', this.id, \'article\')">Dislike</button>';
                                             }
                                         }else{
                                             echo '<p class="article-button">Dislikes: '.$row['numberDislikes'].'</p>';
                                         }
                                     echo '</div>';
-                                    echo "<p>Comments: ".$row['numberComments']."</p>"; 
+                                    echo '<div class="button-number">';
+                                        echo '<div>'.$row['numberComments'].' replies</div>';
+                                        echo '<button id="0" class="article-button" onclick="openHiddenForm(this.id, \'article\')">Reply</button>';
+                                    echo '</div>';
                                 echo '</div>';
                             echo "</div>";
                             if($power == 'admin' || $power == 'moderator' || $userId == $row['userId']){ //somehow, we need to allow users to delete their own articles
@@ -150,8 +157,51 @@
                 }
             }else{
                 echo "<p>Database error trying to receive original post...</p>";
-            }            
+            }  
+        echo '</div>';     
+        if(isset($isClosed)){
+            if(!$isClosed && isset($_SESSION['userId'])){
+                $replyArticleId = 0;
+                include_once './props/item-content-form.php';
+            }
+        }
         ?>
+
+
+        <div class="items-supergroup"> <!-- Load all items for this article that aren't replies to other items on this article -->
+            <div class="item-container">
+                <div class="item-body">
+                    <div>
+                        <div class="item-comment-image"></div>
+                    </div>
+                    <div class="item-comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                </div>
+                <div class="item-footer">
+                    <div class="item-user-profile">Rafael</div>
+                    <div class="button-number">
+                        <div>0 Likes</div>
+                        <button id="like" class="article-button">Like</button>
+                    </div>
+                    <div class="button-number">
+                        <div>0 Dislikes</div>
+                        <button id="dislike" class="article-button">Dislike</button>
+                    </div>
+                    <div class="button-number">
+                        <div>0 Comments</div>
+                        <button id="comment" class="article-button">Comment</button>
+                    </div>
+                    <!-- Add a "reply" button. This should reveal a hidden form that can be used to create a reply item. --> 
+                </div>
+                <?php
+                    $isClosed = true;
+                    if(!$isClosed && isset($_SESSION['userId'])){
+                        include_once './props/item-content-form.php';
+                    }
+                ?>
+                <div class="item-comments"> <!-- If the number of comments is  > 0 then allow the user to have a choice to load them (they should be stored in an array)-->
+                    <p>Load 2 comments...</p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="./js/adminButtons.js"></script>
