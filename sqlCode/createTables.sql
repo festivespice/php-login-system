@@ -160,8 +160,8 @@ create table if not exists forumGroup_userFavorites_bridge(
 create table if not exists forumItem_usersLikes_bridge(
     itemId int(11) not null,
     userId int(11) not null, 
-    likesArticle boolean not null default false,
-    dislikesArticle boolean not null default false,
+    likesItem boolean not null default false,
+    dislikesItem boolean not null default false,
     PRIMARY KEY (itemId, userId),
     CONSTRAINT `fk_forumItem_usersLikes_bridge`
         FOREIGN KEY (itemId) REFERENCES forumItem (id),
